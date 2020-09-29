@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -55,7 +56,7 @@ namespace UnitWorksCCS.Controllers
         }
 
         [HttpPost]
-        public string CreatedData(int plantid, int shopid, int cellid, string MachineInvNo, string MachineModel, string ControllerType, string MachineDispName, string MachineMake, int programtype, string ipaddress, string username, string password, int port, string domain)
+        public string CreateData(int plantid, int shopid, int cellid, string MachineInvNo, string MachineModel, string ControllerType, string MachineDispName, string MachineMake, int programtype, string ipaddress, string username, string password, int port, string domain)
         {
             string res = "";
 
@@ -74,8 +75,13 @@ namespace UnitWorksCCS.Controllers
             obj.MachineModel = MachineModel;
             obj.ControllerType = ControllerType;
             obj.Domain = domain;
-            db.tblProgramTransferDetailsMasters.Add(obj);
-            db.SaveChanges();
+            obj.CreatedOn = DateTime.Now;
+            obj.CreatedBy = Convert.ToInt32( Session["UserId"]);
+            using (i_facility_talEntities db = new i_facility_talEntities())
+            {
+                db.tblProgramTransferDetailsMasters.Add(obj);
+                db.SaveChanges();
+            }
             res = "Success";
 
 
@@ -88,8 +94,15 @@ namespace UnitWorksCCS.Controllers
             return Json(Data, JsonRequestBehavior.AllowGet);
         }
 
+        public string GetProgramMachineDetails(int ID)
+        {
+            string res = "";
+            var  Data = db.tblProgramTransferDetailsMasters.Where(m => m.PTdMID == ID).Select(m=>new { m.PlantID,m.Shopid,m.CellId,m.MachineDispName,m.MachineInvNo,m.MachineMake,m.MachineModel,m.ControllerType,m.IpAddress,m.Port,m.Domain,m.MachineProgramPath,m.UserName,m.Password,m.ProgramType}).FirstOrDefault();
+            res = JsonConvert.SerializeObject(Data);
+            return res;
+        }
 
-        [HttpGet]
+       
         public ActionResult EditMachine(int Id)
         {
             if ((Session["UserId"] == null) || (Session["UserId"].ToString() == String.Empty))
@@ -175,6 +188,47 @@ namespace UnitWorksCCS.Controllers
                                 );
             return Json(CatData, JsonRequestBehavior.AllowGet);
         }
-      
+
+
+
+        // Get Plant Details
+        public string GetPlant()
+        {
+            string res = "";
+
+            var plant = db.tblplants.Where(p => p.IsDeleted == 0).Select(m => new { m.PlantID, m.PlantName }).ToList();
+            res = JsonConvert.SerializeObject(plant);
+            return res;
+        }
+
+        // Get Shop Details
+        public string GetShop(int PlantID)
+        {
+            string res = "";
+
+            var shop = db.tblshops.Where(p => p.IsDeleted == 0 && p.PlantID == PlantID).Select(m => new { m.ShopID, m.ShopName }).ToList();
+            res = JsonConvert.SerializeObject(shop);
+            return res;
+        }
+
+        //Get Cell Details
+        public string GetCell(int ShopID)
+        {
+            string res = "";
+
+            var cell = db.tblcells.Where(p => p.IsDeleted == 0 && p.ShopID == ShopID).Select(m => new { m.CellID, m.CellName }).ToList();
+            res = JsonConvert.SerializeObject(cell);
+            return res;
+        }
+
+        //GetProgramTypeDetails
+        public string GetProgramTypeDetails(int PtypeID)
+        {
+            string res = "";
+
+            var cell = db.tblprogramTypes.Where(p => p.Isdeleted == 0 ).Select(m => new { m.ptypeid, m.TypeName }).ToList();
+            res = JsonConvert.SerializeObject(cell);
+            return res;
+        }
     }
 }

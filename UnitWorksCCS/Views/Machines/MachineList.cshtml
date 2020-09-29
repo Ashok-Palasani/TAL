@@ -41,8 +41,7 @@
                                     <th>MachineInvNo.</th>
                                     <th>Program Type</th>
                                     <th>Machine Model</th>
-                                    <th>Machine Display Name</th>
-                                    ]
+                                    <th>Machine Display Name</th>                                    
                                     <th style="width: 54px;">Action</th>
                                 </tr>
                             </thead>
@@ -60,7 +59,7 @@
 
                                         <td>
                                             <ul class="actionbtnn">
-                                                <li class="actionbtn"><a href="@Url.Action("EditMachine", "Machine", new { id = item.PTdMID })" id="@(@item.PTdMID)" class="btn btn-round btn-info Machine1" data-title="Edit" data-toggle="modal"><i class="fa fa-pencil fa_lg" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="Edit Plant Details"></i></a></li>
+                                                <li class="actionbtn"><a href="#" id="@(@item.PTdMID)" class="btn btn-round btn-info MachineEdit" data-target="#edit-plant" data-title="Edit" data-toggle="modal"><i class="fa fa-pencil fa_lg" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="Edit Plant Details"></i></a></li>
                                                 <li class="actionbtn">@*<a href="@Url.Action("EditMachine", "Machines", new { id = item.PTdMID })" id="@(@item.PTdMID)" class="btn btn-round btn-info Category @*Machine1"><i class="fa fa-pencil fa_lg" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="Edit Machine"></i></a></li>*@
 <li class="actionbtn"><button class="btn btn-round btn-danger deleteItem" data-id="@item.PTdMID" onclick="deleteTargetName('@item.PTdMID')" data-title="Edit" data-toggle="modal" data-target="#delete-plant"><i class="fa fa-trash fa-lg" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="Delete Machine details"></i></button></li>
 
@@ -106,62 +105,93 @@
                                                                                 <label class="col-sm-1 control-label">Plant</label>
                                                                                 <div class="col-sm-3">
                                                                                     @Html.HiddenFor(model => model.PT.PTdMID, new { @id = "EditMachineID", @class = "form-control", @required = "required" })
-                                                                                    @Html.DropDownList("Plant", null, "--Select Plant--", new { @id = "EditPlant", @class = "form-control", @name = "Plant", @required = "required", @value = "@ViewData['plant']" })
+                                                                                    <select id="EditPlantID" class="form-control">
+                                                                                        <option selected="selected" value="0">--Select Plant--</option>
+                                                                                    </select>
                                                                                 </div>
-                                                                                <label class="col-sm-1 control-label">Section</label>
+                                                                                <label class="col-sm-1 control-label">Shop</label>
                                                                                 <div class="col-sm-3">
-                                                                                   @* @Html.DropDownList("dept", null, "--Select Section--", new { @id = "Editdeptid", @class = "form-control", @name = "dept", @required = "required", @value = "@ViewData['dept']" })*@
+                                                                                    @*@Html.DropDownList("Shop", null, "--Select Section--", new { @id = "Editdeptid", @class = "form-control", @name = "dept", @required = "required", @value = "@ViewData['shop']" })*@
+                                                                                    <select id="EditShopID" class="form-control">
+                                                                                        <option selected="selected" value="0">--Select shop--</option>
+                                                                                    </select>
                                                                                 </div>
                                                                                 <label class="col-sm-1 control-label">Cell</label>
                                                                                 <div class="col-sm-3">
-                                                                                    @Html.DropDownList("cell", null, "--Select Cell--", new { @id = "EditMachineCategory", @class = "form-control", @name = "dept", @required = "required", @value = "@ViewData['cell']" })
+                                                                                    @*@Html.DropDownList("cell", null, "--Select Cell--", new { @id = "EditMachineCategory", @class = "form-control", @name = "dept", @required = "required", @value = "@ViewData['cell']" })*@
+                                                                                    <select id="EditCellID" class="form-control">
+                                                                                        <option selected="selected" value="0">--Select Cell--</option>
+                                                                                    </select>
                                                                                 </div>
                                                                                 <input type="hidden" id="hdntxt" value="@item.PTdMID" />
                                                                             </div>
                                                                             <div class="row row-space">
                                                                                 <label class="col-sm-1 control-label adjust-label">MachineInvNo</label>
                                                                                 <div class="col-sm-3">
-                                                                                    @Html.TextBoxFor(model => model.PT.MachineInvNo, new { @id = "EditMachineInvNo", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "MachineInvNo" })
-                                                                                    @*<input type="text" class="form-control1" id="" placeholder="Machine Name">*@
+                                                                                    @*@Html.TextBoxFor(model => model.PT.MachineInvNo, new { @id = "EditMachineInvNo", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "MachineInvNo" })*@
+                                                                                    <input type="text" class="form-control1" id="EditMachineInvNo" placeholder="MachineInvNo">
                                                                                 </div>
 
                                                                                 <label class="col-sm-1 control-label adjust-label">M/c Model</label>
                                                                                 <div class="col-sm-3">
-                                                                                    @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
-                                                                                    @Html.TextBoxFor(model => model.PT.MachineModel, new { @id = "EditMachineModel", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "MachineModel" })
+                                                                                    <input type="text" class="form-control1" id="EditMachineModel" placeholder="MachineModel">
+                                                                                    @*@Html.TextBoxFor(model => model.PT.MachineModel, new { @id = "EditMachineModel", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "MachineModel" })*@
                                                                                 </div>
-                                                                            </div>
 
-                                                                            <div class="row row-space">
-                                                                                <label class="col-sm-2 control-label">Controller Type</label>
+                                                                                <label class="col-sm-1 control-label">Controller Type</label>
                                                                                 <div class="col-sm-3">
-                                                                                    @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
-                                                                                    @Html.TextBoxFor(model => model.PT.ControllerType, new { @id = "EditControllerType", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "ControllerType" })
-                                                                                </div>
-
+                                                                                    <input type="text" class="form-control1" id="EditControllerType" placeholder="ControllerType">
+                                                                                    @*@Html.TextBoxFor(model => model.PT.ControllerType, new { @id = "EditControllerType", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "ControllerType" })*@
+                                                                                </div>                                                                         
+                                                                               
                                                                             </div>
                                                                             <div class="row row-space">
                                                                                 <label class="col-sm-1 control-label adjust-label">Machine Display Name</label>
                                                                                 <div class="col-sm-3">
-                                                                                    @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
-                                                                                    @Html.TextBoxFor(model => model.PT.MachineDispName, new { @id = "EditMachineDispName", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "MachineDispName" })
+                                                                                    <input type="text" class="form-control1" id="EditMachineDispName" placeholder="Machine Display Name">
+                                                                                    @*@Html.TextBoxFor(model => model.PT.MachineDispName, new { @id = "EditMachineDispName", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "MachineDispName" })*@
                                                                                 </div>
                                                                                 <label class="col-sm-1 control-label adjust-label">M/c Make</label>
                                                                                 <div class="col-sm-3">
-                                                                                    @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
-                                                                                    @Html.TextBoxFor(model => model.PT.MachineMake, new { @id = "EditMachineMake", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "MachineMake" })
+                                                                                    <input type="text" class="form-control1" id="EditMachineMake" placeholder="MachineMake">
+                                                                                    @*@Html.TextBoxFor(model => model.PT.MachineMake, new { @id = "EditMachineMake", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "MachineMake" })*@
                                                                                 </div>
                                                                                 <label class="col-sm-1 control-label adjust-label">Program Type</label>
                                                                                 <div class="col-sm-3">
+                                                                                    <select id="EditProgramType" class="form-control">
+                                                                                        <option selected="selected" value="0">--Select Program Type--</option>
+                                                                                    </select>
                                                                                     @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
-                                                                                    @Html.DropDownList("ProgramType", null, "--Select ProgramType--", new { @id = "EditProgramType", @class = "second", @name = "ProgramType", @required = "required", @style = "aria-expanded:false;font-size:75%;width:25%", @value = ViewData["ProgramType"] })
+                                                                                    @*@Html.DropDownList("ProgramType", null, "--Select ProgramType--", new { @id = "EditProgramType", @class = "second", @name = "ProgramType", @required = "required", @style = "aria-expanded:false;font-size:75%;width:25%", @value = ViewData["ProgramType"] })*@
                                                                                 </div>
+                                                                                </div>
+                                                                                <div class="row row-space" id="EditTextid">
+                                                                                    <label class="col-sm-1 control-label adjust-label lblip">Ip Address</label>
+                                                                                    <div class="col-sm-3 DivIPAddress" >
+                                                                                        <input type="Text" class="form-control1" id="Editipaddress" placeholder="IP Address" />
+                                                                                    </div>
+                                                                                    <label class="col-sm-1 control-label adjust-label lblusr">UserName</label>
+                                                                                    <div class="col-sm-3 DivUsername" >
+                                                                                        <input type="Text" class="form-control1" id="EditUserName" placeholder="User Name" />
+                                                                                    </div>
 
-                                                                                <div class="row" id="Textid">
+                                                                                    <label class="col-sm-1 control-label adjust-label lblpwd">Password</label>
+                                                                                    <div class="col-sm-3 DivPwd" id="DivPwd">
+                                                                                        <input type="Text" class="form-control1" id="EditPwd" placeholder="Password" />
+                                                                                    </div>
 
                                                                                 </div>
-                                                                            </div>
+                                                                                <div class="row row-space">
 
+                                                                                    <label class="col-sm-1 control-label adjust-label lblport">Port</label>
+                                                                                    <div class="col-sm-3 DivPort" >
+                                                                                        <input type="Text" class="form-control1" id="EditPort" placeholder="Port Number" />
+                                                                                    </div>
+                                                                                    <label class="col-sm-1 control-label adjust-label lbldmn">Domain</label>
+                                                                                    <div class="col-sm-3 DivDmn">
+                                                                                        <input type="Text" class="form-control1" id="EditDomain" placeholder="Domain" />
+                                                                                    </div>
+                                                                                </div>
                                                                         </form>
                                                                     </div>
                                                                 </div>
@@ -248,8 +278,7 @@
                                                             @Html.DropDownList("ProgramType", null, "--Select ProgramType--", new { @id = "ProgramType", @class = "form-control second", @name = "ProgramType", @required = "required",  @value = ViewData["ProgramType"] })
                                                         </div>
 
-                                                        <div class="row" id="Textid">
-                                                           
+                                                        <div class="row row-space" id="AddTextid">                                                            
                                                         </div>
                                                     </div>
 
@@ -279,8 +308,8 @@
 <!-- /page content -->
 
 <script src="~/js/jquery-2.1.4.min.js"></script>
-
-<script>
+<script src="~/js/moment/MachineMaster.js"></script>
+@*<script>
     $("#EditPlant").on("change", function (e) {
         var PID = $(this).val();
         //alert(PID)
@@ -365,9 +394,9 @@
             $('#EditMachineDisplayName').val(val);
         });
     });
-</script>
+</script>*@
 
-<script>
+@*<script>
     $(document).ready(function () {
         var id = $("#hdntxt").val();
         $.getJSON("/Machines/GetElemet", { Id: id }, function (data) {
@@ -399,18 +428,18 @@
             });
         });
     });
-</script>
+</script>*@
 
-<script>
+@*<script>
     $(document).on("click", "#savebtn", function (e) {
         var ipaddress = "";
         var username = "";
         var password = "";
-        var port = "";
+        var port = 0;
         var domain = "";
-        var plantid = $("#plantID").val();
-        var shopid = $("#DepartmentID").val();
-        var cellid = $("#MachineCategoryID").val();
+        var plantid = parseInt( $("#plantID").val());
+        var shopid = parseInt( $("#DepartmentID").val());
+        var cellid = parseInt( $("#MachineCategoryID").val());
         var MachineInvNo = $("#MachineInvNo").val();
         var MachineModel = $("#MachineModel").val();
         var ControllerType = $("#ControllerType").val();
@@ -430,21 +459,21 @@
             ipaddress = $("#ipaddress").val();
             username = $("#Username").val();
             password = $("#password").val();
-            port = $("#port").val();
+            port =  parseInt($("#port").val());
             domain = $("#domain").val();
         }
-        $.get("/Machines/CreateData", { plantid: plantid, shopid: shopid, cellid: cellid, MachineInvNo: MachineInvNo, MachineModel, ControllerType: ControllerType, MachineDispName: MachineDispName, MachineMake: MachineMake, programtype: programtype, ipaddress: ipaddress, username: username, password: password, port: port, domain: domain }, function (data) {
-            if (data == "Success") {
-                alert("item Created Successfully");
+        $.post("/Machines/CreateData", { plantid, shopid, cellid, MachineInvNo, MachineModel, ControllerType, MachineDispName, MachineMake, programtype, ipaddress, username, password, port, domain }, function (msg) {
+            if (msg == "Success") {
+                alert("Machine details Created Successfully");
                 window.location.href = "/Machines/Index";
             }
 
         });
     });
-</script>
+</script>*@
 
 
-<script>
+@*<script>
     $(document).on("click", "#btnupdate", function (e) {
         var ipaddress = "";
         var username = "";
@@ -477,22 +506,24 @@
             port = $("#port").val();
             domain = $("#domain").val();
         }
-        $.get("/Machines/EditData", { id: id, plantid: plantid, shopid: shopid, cellid: cellid, MachineInvNo: MachineInvNo, ControllerType: ControllerType, MachineDispName: MachineDispName, MachineMake: MachineMake, MachineModel: MachineModel, programtype: programtype, ipaddress: ipaddress, username: username, password: password, port: port, domain: domain }, function (data) {
+        $.get("/Machines/EditData", { id, plantid, shopid,  cellid,  MachineInvNo,  ControllerType,  MachineDispName, MachineMake: MachineMake,  MachineModel, programtype: programtype,  ipaddress,  username, password, port,  domain }, function (data) {
             if (data == "Success") {
                 alert("item Updated Successfully");
-                window.location.href = "/Machines/Index";
+                window.location.href = "/Machines/MachineList";
             }
 
         });
     });
-</script>
+</script>*@
 
-<script>
-    $("#ProgramType").on("change", function () {
+@*<script>
+    $(document).on("change", "#ProgramType", function (e) {
+    //$("#ProgramType").on("change", function () {
         var id = this;
         //var prog = this.val();
         var progtype = $("#ProgramType").val();
         //var cssdata = "";
+        $("#AddTextid").empty();
         if (progtype == "1") {
 
             var cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress"/>';
@@ -500,7 +531,7 @@
         }
 
         else if (progtype == "2") {
-            $("#Textid").empty();
+            $("#AddTextid").empty();
             //var cssdata = "";
             var cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress"/>' +
                 '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" />' +
@@ -509,7 +540,7 @@
         }
 
         else if (progtype == "3") {
-            $("#Textid").empty();
+            $("#AddTextid").empty();
             //var cssdata = "";
            var cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress"/>' +
                 '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" />' +
@@ -518,9 +549,11 @@
                 '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Domain</label> <input type="domain" class="domain" id="domain" />';
 
         }
-        $("#Textid").append(cssdata);
+        //$("#Textid").append(cssdata);
         
-        //$(cssdata).appendTo($('Textid'));
+        $(cssdata).appendTo($('#AddTextid'));
 
     });
-</script>
+
+ 
+</script>*@

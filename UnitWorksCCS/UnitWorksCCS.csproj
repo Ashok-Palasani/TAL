@@ -878,6 +878,7 @@
     <Content Include="js\jValidations.js" />
     <Content Include="js\main.min.js" />
     <Content Include="js\moment\autoMail.js" />
+    <Content Include="js\moment\MachineMaster.js" />
     <Content Include="js\moment\moment.min.js" />
     <Content Include="js\moment\Dashboard.js" />
     <Content Include="js\prefixfree.min.js" />

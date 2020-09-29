@@ -1,7 +1,6 @@
-﻿@model UnitWorksCCS.tblmachinedetail
-@{
+﻿@model UnitWorksCCS.Models.MachineModel
 
-}
+
 <div class="right_col" role="main">
     <div class="">
         <div class="clearfix"></div>
@@ -25,12 +24,12 @@
                             <div class="row row-space">
                                 <label class="col-sm-1 control-label">Plant</label>
                                 <div class="col-sm-3">
-                                    @Html.HiddenFor(model => model.MachineID, new { @id = "EditMachineID", @class = "form-control", @required = "required" })
+                                    @Html.HiddenFor(model => model.PT.PTdMID, new { @id = "EditMachineID", @class = "form-control", @required = "required" })
                                     @Html.DropDownList("Plant", null, "--Select Plant--", new { @id = "EditPlant", @class = "form-control", @name = "Plant", @required = "required", @value = "@ViewData['plant']" })
                                 </div>
                                 <label class="col-sm-1 control-label">Section</label>
                                 <div class="col-sm-3">
-                                    @Html.DropDownList("dept", null, "--Select Section--", new { @id = "Editdeptid", @class = "form-control", @name = "dept", @required = "required", @value = "@ViewData['dept']" })
+                                    @Html.DropDownList("shop", null, "--Select Section--", new { @id = "Editdeptid", @class = "form-control", @name = "dept", @required = "required", @value = "@ViewData['shop']" })
                                 </div>
                                 <label class="col-sm-1 control-label">Cell</label>
                                 <div class="col-sm-3">
