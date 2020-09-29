@@ -1,0 +1,234 @@
+﻿@model UnitWorksCCS.tbl_autoreportsetting
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row form-horizontal">
+            @using (Html.BeginForm("Create", "AutomaticEmailReport", FormMethod.Post))
+            {
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Create Automatic Report</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+
+                            <form class="form-horizontal form-label-left" novalidate>
+                                <div class="row">
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-1 col-sm-3 col-xs-12">Report</label>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            @Html.DropDownListFor(model => model.ReportID, ViewBag.RL1 as IEnumerable<SelectListItem>, "--Select Report--", new { @id = "RL1", @class = "form-control", @name = "RL1", @required = "required" })
+                                            @Html.ValidationMessageFor(model => model.ReportID)
+                                        </div>
+                                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Based On</label>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            @Html.DropDownListFor(model => model.BasedOn, ViewBag.RL2 as IEnumerable<SelectListItem>, "--Select Based On--", new { @id = "RL2", @class = "form-control", @name = "RL2", @tabindex = "2", @required = "required", @onchange = "ChangeBasedOn()" })
+                                            @Html.ValidationMessageFor(model => model.BasedOn)
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-1 col-sm-3 col-xs-12">Time</label>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            @Html.DropDownListFor(model => model.AutoReportTimeID, ViewBag.RL3 as IEnumerable<SelectListItem>, "--Select Report Time--", new { @id = "RL3", @class = "form-control", @tabindex = "2", @name = "RL3", @required = "required" })
+                                            @Html.ValidationMessageFor(model => model.AutoReportTimeID)
+                                        </div>
+                                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Plant</label>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            @Html.DropDownListFor(model => model.PlantID, ViewBag.Plant as IEnumerable<SelectListItem>, "--Select Plant--", new { @id = "PlantID", @class = "form-control", @tabindex = "2", @name = "PlantID", @required = "required" })
+                                            @Html.ValidationMessageFor(model => model.PlantID)
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-1 col-sm-3 col-xs-12">Shop</label>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            @Html.DropDownListFor(model => model.ShopID, ViewBag.Shop as IEnumerable<SelectListItem>, "--Select Shop--", new { @id = "ShopID", @class = "form-control", @tabindex = "2", @name = "ShopID" })
+                                            @Html.ValidationMessageFor(model => model.ShopID)
+
+
+                                        </div>
+                                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Cell</label>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            @Html.DropDownListFor(model => model.CellID, ViewBag.Cell as IEnumerable<SelectListItem>, "--Select Cell--", new { @id = "MachineCategoryID", @class = "form-control1", @tabindex = "2", @name = "MachineCategoryID" })
+                                            @Html.ValidationMessageFor(model => model.CellID)
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-1 col-sm-3 col-xs-12 adjust-label">Machine Inv No.</label>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            @Html.DropDownListFor(model => model.MachineID, ViewBag.WorkCenter as IEnumerable<SelectListItem>, "--Select Machine--", new { @id = "MachineID", @class = "form-control", @tabindex = "2", @name = "MachineID" })
+                                            @Html.ValidationMessageFor(model => model.MachineID)
+                                        </div>
+                                        <label class="control-label col-md-2 col-sm-3 col-xs-12">To List</label>
+                                        <div class="col-md-4 col-sm-6 col-xs-12" id="test">
+                                            @*<input list="browsers" name="Tomail" class="form-control1 MailList">
+                                                <datalist id="browsers"></datalist>*@
+                                            @Html.TextAreaFor(model => model.ToMailList, new { @class = "form-control1 MailList" })
+                                            @*<textarea class="form-control1" placeholder="To List"></textarea>*@
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-1 col-sm-3 col-xs-12">CC List</label>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            @Html.TextAreaFor(model => model.CCMailList, new { @class = "form-control1 MailList", @stye = "margin - top: -15px;" })
+                                            @*<textarea class="form-control1" placeholder="CC List" style="margin-top: -15px;"></textarea>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    <a role="button" href="@Url.Action("Index", "AutomaticEmailReport")" class="btn btn-new" style="margin-top: 10px; margin-left: 5px;"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Back</a>
+                    <button type="submit" class="btn btn-new float-right" style="margin-top: 10px;"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Save</button>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+@*<script src="~/js/jquery-2.1.4.min.js"></script>
+    <script src="~/js/jquery-1.11.1.min.js"></script>
+    <script src="~/js/Jquery-ui-1.11.1.min.js"></script>*@
+
+
+<link href="~/AutoSuggestLinks/jquery-ui.css" rel="stylesheet" />
+<script src="~/js/jquery-2.1.4.min.js"></script>
+<script src="~/AutoSuggestLinks/jquery-ui.js"></script>
+
+
+@*MailList*@
+<script type="text/javascript">
+    var jq = $.noConflict();
+    jq(document).ready(function () {
+        jq(".MailList").autocomplete({
+            source: function (req, resp) {
+                jq.ajax({
+                    url: "/AutomaticEmailReport/GetMailIDs",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: GetCurrentSearchTerm(req.term), AllVal: req.term },
+                    success: function (data) {
+                        resp(jq.map(data, function (item) {
+                            return { label: item.EmailID, value: item.EmailID };
+                        }))
+                    }
+                })
+            },
+
+            select: function (event, ui) {
+                var LastValue = splitCurrentText(this.value);
+                LastValue.pop();
+                LastValue.push(ui.item.value);
+                LastValue.push("");
+                this.value = LastValue.join(",");
+                return false;
+            },
+            focus: function () {
+                return false;
+            }
+        });
+
+        function splitCurrentText(LastTerm) {
+            return LastTerm.split(/,\s*/);
+        }
+
+        function GetCurrentSearchTerm(LastTerm) {
+            return splitCurrentText(LastTerm).pop();
+        }
+    });
+
+</script>
+
+<script>
+
+        //Cascading
+    jq("#PlantID").on("change", function () {
+        jq("#ShopID").empty();
+        jq("#CellID").empty();
+        jq("#MachineID").empty();
+        var selectedID = jq("#PlantID option:selected").val();
+        jq.getJSON("/ShiftPlanner/GetShop", { PlantID: selectedID }, function (data) {
+            jq.each(data, function (index, item) {
+                jq("#ShopID").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                    //$("#CellID").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                });
+            jq("#ShopID").prepend("<option value='' selected='selected'></option>");
+            jq("#MachineID").prepend("<option value='' selected='selected'></option>");
+            });
+        });
+
+    jq("#ShopID").on("change", function () {
+        jq("#MachineCategoryID").empty();
+        jq("#MachineID").empty();
+        var selectedID = jq("#ShopID option:selected").val();
+        jq.getJSON("/ShiftPlanner/GetCell", { ShopID: selectedID }, function (data) {
+            jq.each(data, function (index, item) {
+                jq("#MachineCategoryID").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                });
+            jq("#MachineCategoryID").prepend("<option value='' selected='selected'></option>");
+            });
+
+
+
+        });
+
+    jq("#MachineCategoryID").on("change", function () {
+        jq("#MachineID").empty();
+        var selectedID = jq("#MachineCategoryID option:selected").val();
+            //alert(selectedID);
+        jq.getJSON("/ShiftPlanner/GetWC_Cell", { CellID: selectedID }, function (data) {
+            jq.each(data, function (index, item) {
+                jq("#MachineID").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                });
+            jq("#MachineID").prepend("<option value='' selected='selected'></option>");
+
+            });
+        });
+    </script>
+
+
+
+<script>
+        function ChangeBasedOn() {
+            var item = jq("#RL2 option:selected").text();
+            if (item == "Plant") {
+                jq("#PlantID").attr("required", "required");
+                jq("#ShopID").removeAttr("required", "required");
+                jq("#MachineCategoryID").removeAttr("required", "required");
+                jq("#MachineID").removeAttr("required", "required");
+            } else if (item == "Shop") {
+                jq("#PlantID").attr("required", "required");
+                jq("#ShopID").attr("required", "required");
+                jq("#MachineCategoryID").removeAttr("required", "required"); 
+                jq("#MachineID").removeAttr("required", "required");
+
+            } else if (item == "Cell") {
+                jq("#PlantID").attr("required", "required");
+                jq("#ShopID").attr("required", "required");
+                jq("#MachineCategoryID").attr("required", "required");
+                jq("#MachineID").removeAttr("required", "required");
+
+            } else if (item == "Machine") {
+                jq("#PlantID").attr("required", "required");
+                jq("#ShopID").attr("required", "required");
+                jq("#MachineCategoryID").attr("required", "required");
+                jq("#MachineID").attr("required", "required");
+            } else {
+                jq("#PlantID").attr("required", "required");
+                jq("#ShopID").attr("required", "required");
+                jq("#MachineCategoryID").attr("required", "required");
+                jq("#MachineID").attr("required", "required");
+            }
+        }
+    </script>

@@ -1,0 +1,226 @@
+﻿
+@{
+    ViewBag.Title = "Password Change";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .AlignCenter {
+        margin-left: 500px;
+    }
+
+    .Picon {
+        float: right;
+        margin-right: 6px;
+        margin-top: -30px;
+        position: relative;
+        z-index: 2;
+        color: black;
+    }
+</style>
+
+
+<div class="right_col" role="main">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Update Password</h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div id="Change">
+            <div class="row AlignCenter">
+                <div class="col-sm-new-3 ">
+                    <label>User Name</label>
+                </div>
+                <div class="col-sm-new-3">
+                    @*<input class="form-control ui-autocomplete-input" id="UserName" name="UserName" readonly="readonly" />*@
+                    @Html.TextBox("User Name", null, new { @class = "form-control", @id = "UserName", @readonly = "readonly" })
+                </div>
+            </div>
+            <br />
+            <div class="row AlignCenter">
+                <div class="col-sm-new-3 ">
+                    <label>Old Password</label>
+                </div>
+                <div class="col-sm-new-3">
+                    <input type="password" class="form-control ui-autocomplete-input PWD" id="OPassword" name="OPassword" placeholder="Old Password" required />
+                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon Picon" id="icon"></span>
+                    @* @Html.TextBox("Old Password", null, new { @class = "form-control", @id = "OPassword", @placeholder = "Old Password", @readonly = "readonly", @type = "password" })*@
+                </div>
+            </div>
+            <br />
+            <div class="row AlignCenter" id="OldPWDDiv">
+                <div class="col-sm-new-3 ">
+                    <button type="submit" class="btn btn-info storetblo" onclick="ValidateOldPassword();" style="margin-left: 40px;">Change Password</button>
+                </div>
+                <div class="col-sm-new-3 ">
+                    <button type="reset" class="btn btn-info storetblo" onclick="ReloadPage();" style="margin-left: 40px;">Cancle</button>
+                </div>
+            </div>
+            <div id="DivNewPassword">
+                <div class="row AlignCenter">
+                    <div class="col-sm-new-3 ">
+                        <label>New Password</label>
+                    </div>
+                    <div class="col-sm-new-3">
+                        <input type="password" class="form-control ui-autocomplete-input PWD" id="NPassword" name="NPassword" placeholder="New Password" required />
+                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon Picon" id="icon1"></span>
+                        @*<img src="theicon" onmouseover="mouseoverPass();" onmouseout="mouseoutPass();" />*@
+                        @*@Html.TextBox("New Password", null, new { @class = "form-control", @id = "NPassword", @placeholder = "New Password", @required = "required", @type = "password" })*@
+                    </div>
+                </div>
+                <br />
+                <div class="row AlignCenter">
+                    <div class="col-sm-new-3 ">
+                        <label>Confirm Password</label>
+                    </div>
+                    <div class="col-sm-new-3">
+                        <input type="password" class="form-control ui-autocomplete-input PWD" id="CPassword" name="CPassword" placeholder="Confirm Password" required />
+                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon Picon" id="icon2"></span>
+                        @* @Html.TextBox("Confirm Password", null, new { @class = "form-control", @id = "CPassword", @placeholder = "Confirm Password", @required = "required", @type = "password" })*@
+                    </div>
+                </div>
+                @*<br />
+            <div class="row AlignCenter">
+                <div class="col-sm-new-3 ">
+                    <input type="checkbox" onclick="ShowPassword();">Show Password
+                </div>
+            </div>*@
+
+                <br />
+                <div class="row AlignCenter">
+                    <div class="col-sm-new-3 ">
+                        <button type="submit" class="btn btn-info storetbl" onclick="ValidateInsert();" style="margin-left: 40px;">Change Password</button>
+                    </div>
+                    <div class="col-sm-new-3 ">
+                        <button type="reset" class="btn btn-info storetbl" onclick="ReloadPage();" style="margin-left: 40px;">Cancle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jquery-2.1.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#UserName").val('@ViewBag.UserName');
+        $("#DivNewPassword").hide();
+        //$("#OPassword").val('@ViewBag.Password');
+    });
+
+    function ValidateInsert() {
+        var NPwd = $("#NPassword").val();
+        var CPwd = $("#CPassword").val();
+        if (NPwd != "") {
+            if (NPwd == CPwd) {
+                $.post("/ChangePassword/UpdateNewPassword", { NEWPwd: NPwd }, function (res) {
+                    if (res == "Success") {
+                        alert("Password Has Been Changed");
+                        window.location.href = "/Login/Login";
+                    }
+                    else if (res == "Same") {
+                        alert("Password is same. Give new password");
+                        window.location.href = "/ChangePassword/Index";
+                    }
+                    else {
+                        alert("For this user password cannot be changed");
+                        window.location.href = "/ChangePassword/Index";
+                    }
+                })
+            }
+            else {
+                alert("Do Not Matched The Password's");
+                window.location.href = "/ChangePassword/Index";
+            }
+        }
+        else {
+            alert("Please Enter the Password");
+        }
+    }
+
+    function ReloadPage() {
+        window.location.href = "/ChangePassword/Index";
+    }
+
+
+    function ValidateOldPassword() {
+        var OPwd = $("#OPassword").val();
+        if (OPwd != "" && OPwd != null) {
+            $.post("/ChangePassword/ValidatePassword", { OLDPwd: OPwd }, function (res) {
+                if (res == "Success") {
+                    $("#DivNewPassword").show();  
+                    document.getElementById('OPassword').readOnly = true;
+                    $("#OldPWDDiv").hide();
+                }
+            });
+        }
+    }
+
+    $("#icon").click(function () {
+        //showPassword("OPassword");
+        var Pid = document.getElementById("OPassword");
+        if (Pid.type === "password") {
+            Pid.type = "text";
+        } else {
+            Pid.type = "password";
+        }
+    });
+
+
+    $("#icon1").click(function () {
+       // showPassword("NPassword");
+        var Pid = document.getElementById("NPassword");
+        if (Pid.type === "password") {
+            Pid.type = "text";
+        } else {
+            Pid.type = "password";
+        }
+    });
+
+
+    $("#icon2").click(function () {
+        //showPassword("CPassword");
+        var Pid = document.getElementById("CPassword");
+        if (Pid.type === "password") {
+            Pid.type = "text";
+        } else {
+            Pid.type = "password";
+        }
+    });
+
+    //function showPassword(checkID) {
+    //    var Pid = document.getElementById("checkID");
+    //    if (Pid.type === "password") {
+    //        Pid.type = "text";
+    //    } else {
+    //        Pid.type = "password";
+    //    }
+    //}
+
+
+    // password show check box
+    //function ShowPassword() {
+    //    var x = document.getElementById("CPassword");
+    //    var y = document.getElementById("NPassword");
+    //    var z = document.getElementById("OPassword");
+    //    if (z.type === "password") {
+    //        z.type = "text";
+    //    } else {
+    //        z.type = "password";
+    //    }
+    //    if (x.type === "password") {
+    //        x.type = "text";
+    //    } else {
+    //        x.type = "password";
+    //    }
+    //    if (y.type === "password") {
+    //        y.type = "text";
+    //    } else {
+    //        y.type = "password";
+    //    }
+    //}
+</script>

@@ -1,0 +1,54 @@
+USE [i_facility_auma]
+GO
+
+INSERT INTO [dbo].[tblworkorderentry]
+           ([MachineID]
+           ,[OperatorID]
+           ,[ShiftID]
+           ,[PartNo]
+           ,[OperationName]
+           ,[QtyProduced]
+           ,[RejectedQty]
+           ,[ReworkQty]
+           ,[CmtBatchNo1]
+           ,[CmtBatchNo2]
+           ,[IsStarted]
+           ,[IsHold]
+           ,[IsFinished]
+           ,[HoldReasonID]
+           ,[CorrectedDate]
+           ,[CreatedOn]
+           ,[CreatedBy]
+           ,[ModifiedOn]
+           ,[ModifiedBy]
+           ,[StartTime]
+           ,[EndTime]
+           ,[Target]
+           ,[PartsCount])
+     VALUES
+           (<MachineID, int,>
+           ,<OperatorID, int,>
+           ,<ShiftID, int,>
+           ,<PartNo, varchar(50),>
+           ,<OperationName, varchar(50),>
+           ,<QtyProduced, int,>
+           ,<RejectedQty, int,>
+           ,<ReworkQty, int,>
+           ,<CmtBatchNo1, varchar(45),>
+           ,<CmtBatchNo2, varchar(45),>
+           ,<IsStarted, int,>
+           ,<IsHold, int,>
+           ,<IsFinished, int,>
+           ,<HoldReasonID, int,>
+           ,<CorrectedDate, date,>
+           ,<CreatedOn, varchar(45),>
+           ,<CreatedBy, int,>
+           ,<ModifiedOn, datetime,>
+           ,<ModifiedBy, int,>
+           ,<StartTime, time(7),>
+           ,<EndTime, time(7),>
+           ,<Target, int,>
+           ,<PartsCount, int,>)
+GO
+
+

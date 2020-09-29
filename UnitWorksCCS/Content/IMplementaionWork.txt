@@ -1,0 +1,134 @@
+Focas1.ODBST MacStatus = new Focas1.ODBST();
+
+            short StatRet = Focas1.cnc_statinfo(h, MacStatus);
+
+            retValList.Add(ip); //8
+            retValList.Add(InventoryNo); //9
+
+            //Auto/Manual Mode Status
+            switch (MacStatus.aut)
+            {
+                case 0:
+                    //statetb.Text = "MDI";
+                    retValList.Add("MDI"); //10
+                    break;
+                case 1:
+                    //statetb.Text = "MEM";
+                    retValList.Add("MEM"); //10
+                    break;
+                case 2:
+                    //statetb.Text = "****";
+                    retValList.Add("****"); //10
+                    break;
+                case 3:
+                    //statetb.Text = "EDIT";
+                    retValList.Add("EDIT"); //10
+                    break;
+                case 4:
+                    //statetb.Text = "HND";
+                    retValList.Add("HND"); //10
+                    break;
+                case 5:
+                    //statetb.Text = "JOG";
+                    retValList.Add("JOG"); //10
+                    break;
+                case 6:
+                    //statetb.Text = "Teach JOG";
+                    retValList.Add("Teach JOG"); //10
+                    break;
+                case 7:
+                    //statetb.Text = "Teach HND";
+                    retValList.Add("Teach HND"); //10
+                    break;
+                case 8:
+                    //statetb.Text = "INC Feed";
+                    retValList.Add("INC Feed"); //10
+                    break;
+                case 9:
+                    //statetb.Text = "REF";
+                    retValList.Add("REF"); //10
+                    break;
+                case 10:
+                    //statetb.Text = "RMT";
+                    retValList.Add("RMT"); //10
+                    break;
+                default:
+                    retValList.Add("****"); //10
+                    break;
+            }
+
+            //Auto Run Status
+            switch (MacStatus.run)
+            {
+                case 0:
+                    //runtb.Text = "****(reset)";
+                    retValList.Add("****(reset)");  //11
+                    break;
+                case 1:
+                    //runtb.Text = "STOP";
+                    retValList.Add("STOP"); //11
+                    break;
+                case 2:
+                    //runtb.Text = "HOLD";
+                    retValList.Add("HOLD"); //11
+                    break;
+                case 3:
+                    //runtb.Text = "STRT";
+                    retValList.Add("STRT"); //11
+                    break;
+                case 4:
+                    //runtb.Text = "MSTR";
+                    retValList.Add("MSTR"); //11
+                    break;
+                default:
+                    retValList.Add("****"); //11
+                    break;
+            }
+
+            //Alarm
+            switch (MacStatus.alarm)
+            {
+                case 0:
+                    //alarmtb.Text = "****";
+                    retValList.Add("****"); //12
+                    break;
+                case 1:
+                    //alarmtb.Text = "ALM";
+                    //alarmtb.ForeColor = Color.DarkRed;
+                    retValList.Add("ALM"); //12
+                    break;
+                case 2:
+                    //alarmtb.Text = "BATLOW";
+                    //alarmtb.ForeColor = Color.DarkRed;
+                    retValList.Add("BATLOW"); //12
+                    break;
+                case 3:
+                    //alarmtb.Text = "FANALM";
+                    //alarmtb.ForeColor = Color.DarkRed;
+                    retValList.Add("FANALM"); //12
+                    break;
+                default:
+                    retValList.Add("****"); //12
+                    break;
+            }
+
+            //Emergency
+            switch (MacStatus.emergency)
+            {
+                case 0:
+                    //emertb.Text = "****";
+                    retValList.Add("****"); //13
+                    break;
+                case 1:
+                    //emertb.Text = "EMG";
+                    //emertb.ForeColor = Color.DarkRed;
+                    retValList.Add("EMG"); //13
+                    break;
+                case 2:
+                    //emertb.Text = "ReSET";
+                    retValList.Add("ReSET"); //13
+                    break;
+                default:
+                    retValList.Add("****"); //13
+                    break;
+            }

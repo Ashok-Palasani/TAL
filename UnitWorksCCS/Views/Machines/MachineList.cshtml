@@ -1,0 +1,526 @@
+﻿@model UnitWorksCCS.Models.MachineModel
+@{
+    ViewBag.Title = "MachineList";
+}
+
+
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Machine List</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                @*<button type="button" class="btn btn-default" style="margin-top: 10px;" onclick="locationChange()"><i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;Add New</button>*@
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#create-plant" style="margin-top: 10px;"><i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;Add New</button>
+                            </li>
+                        </ul>
+                        <script>
+                            function locationChange() {
+                                //window.location.replace("/machines/CreateMachine");
+                                window.location.href = "/Machines/CreateMachine";
+                            }
+                        </script>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Plant</th>
+                                    <th>Shop</th>
+                                    <th>Cell</th>
+                                    <th>MachineInvNo.</th>
+                                    <th>Program Type</th>
+                                    <th>Machine Model</th>
+                                    <th>Machine Display Name</th>
+                                    ]
+                                    <th style="width: 54px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.PTList)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.tblplant.PlantName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.tblshop.ShopName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.tblcell.CellName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.MachineInvNo)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.ProgramType)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.MachineModel)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.MachineDispName)</td>
+
+                                        <td>
+                                            <ul class="actionbtnn">
+                                                <li class="actionbtn"><a href="@Url.Action("EditMachine", "Machine", new { id = item.PTdMID })" id="@(@item.PTdMID)" class="btn btn-round btn-info Machine1" data-title="Edit" data-toggle="modal"><i class="fa fa-pencil fa_lg" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="Edit Plant Details"></i></a></li>
+                                                <li class="actionbtn">@*<a href="@Url.Action("EditMachine", "Machines", new { id = item.PTdMID })" id="@(@item.PTdMID)" class="btn btn-round btn-info Category @*Machine1"><i class="fa fa-pencil fa_lg" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="Edit Machine"></i></a></li>*@
+<li class="actionbtn"><button class="btn btn-round btn-danger deleteItem" data-id="@item.PTdMID" onclick="deleteTargetName('@item.PTdMID')" data-title="Edit" data-toggle="modal" data-target="#delete-plant"><i class="fa fa-trash fa-lg" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="Delete Machine details"></i></button></li>
+
+                                                <!-- Delete Modal Start -->
+                                                <div class="modal fade" id="delete-plant" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="myModalLabel">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title" id="myModalLabel"></h4>
+                                                                <div class="x_panel">
+                                                                    <div class="x_title">
+                                                                        <h5>Delete Machine Details</h5>
+                                                                    </div>
+                                                                    <div class="x_content">
+                                                                        <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Detail?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="alert-danger">Machine Name:</label>&nbsp;&nbsp;<label class="alert-danger">@item.MachineDispName</label></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                @*@Html.ActionLink("Delete Machine", "DeleteMachine", "Machine", new { id = item.MachineID }, new { @class = "btn btn-danger" })*@
+                                                                <button type="button" class="btn btn-danger btnContinueDelete"><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                                                                <button type="button" class="btn btn-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Delete Modal Finish -->
+                                                <!-- edit Modal Start -->
+                                                @*@using (Html.BeginForm("EditMachine", "Machines", FormMethod.Post, new { @class = "form-horizontal bordered-row" }))
+                                                    {*@
+                                                <div class="modal fade" id="edit-plant" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="myModalLabel">
+                                                    <div class="modal-dialog modal-lg" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title" id="myModalLabel"></h4>
+                                                                <div class="x_panel">
+                                                                    <div class="x_title">
+                                                                        <h5>Edit Machine Details</h5>
+                                                                    </div>
+                                                                    <div class="x_content">
+                                                                        <form class="form-horizontal form-label-left" novalidate>
+                                                                            <div class="row row-space">
+                                                                                <label class="col-sm-1 control-label">Plant</label>
+                                                                                <div class="col-sm-3">
+                                                                                    @Html.HiddenFor(model => model.PT.PTdMID, new { @id = "EditMachineID", @class = "form-control", @required = "required" })
+                                                                                    @Html.DropDownList("Plant", null, "--Select Plant--", new { @id = "EditPlant", @class = "form-control", @name = "Plant", @required = "required", @value = "@ViewData['plant']" })
+                                                                                </div>
+                                                                                <label class="col-sm-1 control-label">Section</label>
+                                                                                <div class="col-sm-3">
+                                                                                   @* @Html.DropDownList("dept", null, "--Select Section--", new { @id = "Editdeptid", @class = "form-control", @name = "dept", @required = "required", @value = "@ViewData['dept']" })*@
+                                                                                </div>
+                                                                                <label class="col-sm-1 control-label">Cell</label>
+                                                                                <div class="col-sm-3">
+                                                                                    @Html.DropDownList("cell", null, "--Select Cell--", new { @id = "EditMachineCategory", @class = "form-control", @name = "dept", @required = "required", @value = "@ViewData['cell']" })
+                                                                                </div>
+                                                                                <input type="hidden" id="hdntxt" value="@item.PTdMID" />
+                                                                            </div>
+                                                                            <div class="row row-space">
+                                                                                <label class="col-sm-1 control-label adjust-label">MachineInvNo</label>
+                                                                                <div class="col-sm-3">
+                                                                                    @Html.TextBoxFor(model => model.PT.MachineInvNo, new { @id = "EditMachineInvNo", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "MachineInvNo" })
+                                                                                    @*<input type="text" class="form-control1" id="" placeholder="Machine Name">*@
+                                                                                </div>
+
+                                                                                <label class="col-sm-1 control-label adjust-label">M/c Model</label>
+                                                                                <div class="col-sm-3">
+                                                                                    @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
+                                                                                    @Html.TextBoxFor(model => model.PT.MachineModel, new { @id = "EditMachineModel", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "MachineModel" })
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row row-space">
+                                                                                <label class="col-sm-2 control-label">Controller Type</label>
+                                                                                <div class="col-sm-3">
+                                                                                    @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
+                                                                                    @Html.TextBoxFor(model => model.PT.ControllerType, new { @id = "EditControllerType", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "ControllerType" })
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="row row-space">
+                                                                                <label class="col-sm-1 control-label adjust-label">Machine Display Name</label>
+                                                                                <div class="col-sm-3">
+                                                                                    @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
+                                                                                    @Html.TextBoxFor(model => model.PT.MachineDispName, new { @id = "EditMachineDispName", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "MachineDispName" })
+                                                                                </div>
+                                                                                <label class="col-sm-1 control-label adjust-label">M/c Make</label>
+                                                                                <div class="col-sm-3">
+                                                                                    @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
+                                                                                    @Html.TextBoxFor(model => model.PT.MachineMake, new { @id = "EditMachineMake", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "MachineMake" })
+                                                                                </div>
+                                                                                <label class="col-sm-1 control-label adjust-label">Program Type</label>
+                                                                                <div class="col-sm-3">
+                                                                                    @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
+                                                                                    @Html.DropDownList("ProgramType", null, "--Select ProgramType--", new { @id = "EditProgramType", @class = "second", @name = "ProgramType", @required = "required", @style = "aria-expanded:false;font-size:75%;width:25%", @value = ViewData["ProgramType"] })
+                                                                                </div>
+
+                                                                                <div class="row" id="Textid">
+
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" id="btnupdate" class="btn btn-info editupdate"><i class="fa fa-floppy-o" aria-hidden="true"></i> Update</button>
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*}*@
+                                                <!-- edit Modal Finish -->
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <!-- create Modal Start -->
+                        <div class="modal fade" id="create-plant" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="myModalLabel">
+                            @*@using (Html.BeginForm("CreateMachine", "Machines", FormMethod.Post, new { @class = "form-horizontal bordered-row" }))
+                                {*@
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+
+                                        <h4 class="modal-title" id="myModalLabel"></h4>
+                                        <div class="x_panel">
+                                            <div class="x_title">
+                                                <h5>Create Machine Details</h5>
+                                            </div>
+                                            <div class="x_content">
+                                                <form class="form-horizontal form-label-left" novalidate>
+                                                    <div class="row row-space">
+                                                        <label class="col-sm-1 control-label">Plant</label>
+                                                        <div class="col-sm-3">
+                                                            @Html.DropDownList("Plant", null, "--Select Plant--", new { @id = "plantID", @class = "form-control Plant", @name = "plant", @required = "required", @value = ViewData["Plant"] })
+                                                        </div>
+                                                        <label class="col-sm-1 control-label">Section</label>
+                                                        <div class="col-sm-3">
+                                                            @Html.DropDownList("Shop", null, "--Select Section--", new { @id = "DepartmentID", @class = "form-control DepartmentID", @name = "DepartmentID", @required = "required", @value = ViewData["Shop"] })
+                                                        </div>
+                                                        <label class="col-sm-1 control-label">Cell</label>
+                                                        <div class="col-sm-3">
+                                                            @Html.DropDownList("Cell", null, "--Select Cell--", new { @id = "MachineCategoryID", @class = "form-control MachCat", @name = "MachineCategory", @required = "required", @value = ViewData["Cell"] })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-space">
+                                                        <label class="col-sm-1 control-label adjust-label">MachineInvNo</label>
+                                                        <div class="col-sm-3">
+                                                            @Html.TextBoxFor(model => model.PT.MachineInvNo, new { @id = "MachineInvNo", @class = "form-control second",  @placeholder = "MachineInvNo" })
+                                                            @*<input type="text" class="form-control1" id="" placeholder="Machine Name">*@
+                                                        </div>
+
+
+                                                        <label class="col-sm-1 control-label adjust-label">M/c Model</label>
+                                                        <div class="col-sm-3">
+                                                            @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
+                                                            @Html.TextBoxFor(model => model.PT.MachineModel, new { @id = "MachineModel", @class = "form-control second",  @placeholder = "MachineModel" })
+                                                        </div>
+                                                        <label class="col-sm-1 control-label">Controller Type</label>
+                                                        <div class="col-sm-3">
+                                                            @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
+                                                            @Html.TextBoxFor(model => model.PT.ControllerType, new { @id = "ControllerType", @class = "form-control second",  @placeholder = "ControllerType" })
+                                                        </div>
+                                                    </div>
+
+                                                  
+                                                    <div class="row row-space">
+                                                        <label class="col-sm-1 control-label adjust-label">Machine Display Name</label>
+                                                        <div class="col-sm-3">
+                                                            @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
+                                                            @Html.TextBoxFor(model => model.PT.MachineDispName, new { @id = "MachineDispName", @class = "form-control second", @placeholder = "MachineDispName" })
+                                                        </div>
+                                                        <label class="col-sm-1 control-label adjust-label">M/c Make</label>
+                                                        <div class="col-sm-3">
+                                                            @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
+                                                            @Html.TextBoxFor(model => model.PT.MachineMake, new { @id = "MachineMake", @class = "form-control second", @placeholder = "MachineMake" })
+                                                        </div>
+                                                        <label class="col-sm-1 control-label adjust-label">Program Type</label>
+                                                        <div class="col-sm-3">
+                                                            @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
+                                                            @Html.DropDownList("ProgramType", null, "--Select ProgramType--", new { @id = "ProgramType", @class = "form-control second", @name = "ProgramType", @required = "required",  @value = ViewData["ProgramType"] })
+                                                        </div>
+
+                                                        <div class="row" id="Textid">
+                                                           
+                                                        </div>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+
+                                        <button type="submit" id="savebtn" class="btn btn-info"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                            @*}*@
+                        </div>
+                        <!-- create Modal Finish -->
+                        <li class="actionbtn"><button class="btn btn-round btn-info mach1" data-title="Edit" data-toggle="modal" style="display:none" data-target="#edit-plant"><i class="fa fa-pencil fa-lg" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="Edit Machine details"></i></button></li>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /page content -->
+
+<script src="~/js/jquery-2.1.4.min.js"></script>
+
+<script>
+    $("#EditPlant").on("change", function (e) {
+        var PID = $(this).val();
+        //alert(PID)
+        //debugger;
+        $.getJSON("/Machines/FetchDept", { PID: PID }, function (data) {
+            $("#Editdeptid").empty();
+            $("#Editdeptid").append("<option value = ''> --Select Shop-- </option>")
+            $.each(data, function (index, item) {
+                $("#Editdeptid").append("<option value = '" + item.Value + "'>" + item.Text + "</option>")
+            });
+        });
+    });
+
+    $("#Editdeptid").on("change", function (e) {
+        var DeptID = $(this).val();
+        //alert(DeptID)
+        $.getJSON("/Machines/FetchCat", { DeptID: DeptID }, function (data) {
+            $("#EditMachineCategory").empty();
+            $("#EditMachineCategory").append("<option value = ''> --Select Cell-- </option>")
+            $.each(data, function (index, item) {
+                $("#EditMachineCategory").append("<option value = '" + item.Value + "'>" + item.Text + "</option>")
+            });
+        });
+    });
+
+    $(".Plant").on("change", function (e) {
+        var PID = $(this).val();
+        //alert(PID)
+        //debugger;
+        $.getJSON("/Machines/FetchDept", { PID: PID }, function (data) {
+            $(".DepartmentID").empty();
+            $(".DepartmentID").append("<option value = ''> --Select Shop-- </option>")
+            $.each(data, function (index, item) {
+                $(".DepartmentID").append("<option value = '" + item.Value + "'>" + item.Text + "</option>")
+            });
+        });
+    });
+
+
+    $(".DepartmentID").on("change", function (e) {
+        var DeptID = $(this).val();
+        //alert(DeptID)
+        $.getJSON("/Machines/FetchCat", { DeptID: DeptID }, function (data) {
+            $(".MachCat").empty();
+            $(".MachCat").append("<option value = ''> --Select Cell-- </option>")
+            $.each(data, function (index, item) {
+                $(".MachCat").append("<option value = '" + item.Value + "'>" + item.Text + "</option>")
+            });
+        });
+    });
+
+    function deleteTargetName(productvariant) {
+        $(".deleteTargetName").empty();
+        $(".deleteTargetName").html("Role Name: " +
+            productvariant);
+    }
+
+    var item_to_delete;
+    $(".deleteItem").click(function (e) {
+        item_to_delete = $(this).data('id');
+        //alert(item_to_delete);
+    });
+    $('.btnContinueDelete').click(function () {
+        //  alert("hi");
+        window.location = "/Machines/DeleteMachine/" + "?id=" + item_to_delete;
+    });
+
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#MachineName').change(function () {
+            var val = $('#MachineName').val();
+            $('#MachineDisplayName').val(val);
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#EditMachineName').change(function () {
+            var val = $('#EditMachineName').val();
+            $('#EditMachineDisplayName').val(val);
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        var id = $("#hdntxt").val();
+        $.getJSON("/Machines/GetElemet", { Id: id }, function (data) {
+            $.each(data, function (index, item) {
+                $("#EditProgramType").val(item.programtype);
+                var programtype = item.programtype;
+                if (programtype == 1) {
+                    var cssdata = "";
+                    cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress" value="' + item.ipaddress + '"/>';
+
+                }
+                else if (programtype == 2) {
+                    var cssdata = "";
+                    cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress" value="' + item.ipaddress + '"/>' +
+                        '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" value="' + item.username + '"/>' +
+                        '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">PassWord</label> <input type="password" class="password" id="password" value="' + item.password + '"/>';
+
+                }
+                else if (programtype == 3) {
+                    var cssdata = "";
+                    cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress" value="' + item.ipaddress + '"/>' +
+                        '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" value="' + item.username + '"/>' +
+                        '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">PassWord</label> <input type="password" class="password" id="password" value="' + item.password + '"/>' +
+                        '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Port</label> <input type="number" class="port" id="port" value="' + item.port + '"/>' +
+                        '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Domain</label> <input type="domain" class="domain" id="domain" value="' + item.domain + '"/>';
+
+                }
+
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).on("click", "#savebtn", function (e) {
+        var ipaddress = "";
+        var username = "";
+        var password = "";
+        var port = "";
+        var domain = "";
+        var plantid = $("#plantID").val();
+        var shopid = $("#DepartmentID").val();
+        var cellid = $("#MachineCategoryID").val();
+        var MachineInvNo = $("#MachineInvNo").val();
+        var MachineModel = $("#MachineModel").val();
+        var ControllerType = $("#ControllerType").val();
+        var MachineDispName = $("#MachineDispName").val();
+        var MachineMake = $("#MachineMake").val();
+
+        var programtype = $("#ProgramType").val();
+        if (programtype == 1) {
+            ipaddress = $("#ipaddress").val();
+        }
+        else if (programtype == 2) {
+            ipaddress = $("#ipaddress").val();
+            username = $("#Username").val();
+            password = $("#password").val();
+        }
+        else if (programtype == 3) {
+            ipaddress = $("#ipaddress").val();
+            username = $("#Username").val();
+            password = $("#password").val();
+            port = $("#port").val();
+            domain = $("#domain").val();
+        }
+        $.get("/Machines/CreateData", { plantid: plantid, shopid: shopid, cellid: cellid, MachineInvNo: MachineInvNo, MachineModel, ControllerType: ControllerType, MachineDispName: MachineDispName, MachineMake: MachineMake, programtype: programtype, ipaddress: ipaddress, username: username, password: password, port: port, domain: domain }, function (data) {
+            if (data == "Success") {
+                alert("item Created Successfully");
+                window.location.href = "/Machines/Index";
+            }
+
+        });
+    });
+</script>
+
+
+<script>
+    $(document).on("click", "#btnupdate", function (e) {
+        var ipaddress = "";
+        var username = "";
+        var password = "";
+        var port = "";
+        var domain = "";
+        var id = $("#hdntxt").val();
+        var plantid = $("#EditPlant").val();
+        var shopid = $("#Editdeptid").val();
+        var cellid = $("#EditMachineCategory").val();
+        var MachineInvNo = $("#EditMachineInvNo").val();
+        var ControllerType = $("#EditControllerType").val();
+        var MachineDispName = $("#EditMachineDispName").val();
+        var MachineMake = $("#EditMachineMake").val();
+        var MachineModel = $("#EditMachineModel").val();
+
+        var programtype = $("#EditProgramType").val();
+        if (programtype == 1) {
+            ipaddress = $("#ipaddress").val();
+        }
+        else if (programtype == 2) {
+            ipaddress = $("#ipaddress").val();
+            username = $("#Username").val();
+            password = $("#password").val();
+        }
+        else if (programtype == 3) {
+            ipaddress = $("#ipaddress").val();
+            username = $("#Username").val();
+            password = $("#password").val();
+            port = $("#port").val();
+            domain = $("#domain").val();
+        }
+        $.get("/Machines/EditData", { id: id, plantid: plantid, shopid: shopid, cellid: cellid, MachineInvNo: MachineInvNo, ControllerType: ControllerType, MachineDispName: MachineDispName, MachineMake: MachineMake, MachineModel: MachineModel, programtype: programtype, ipaddress: ipaddress, username: username, password: password, port: port, domain: domain }, function (data) {
+            if (data == "Success") {
+                alert("item Updated Successfully");
+                window.location.href = "/Machines/Index";
+            }
+
+        });
+    });
+</script>
+
+<script>
+    $("#ProgramType").on("change", function () {
+        var id = this;
+        //var prog = this.val();
+        var progtype = $("#ProgramType").val();
+        //var cssdata = "";
+        if (progtype == "1") {
+
+            var cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress"/>';
+
+        }
+
+        else if (progtype == "2") {
+            $("#Textid").empty();
+            //var cssdata = "";
+            var cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress"/>' +
+                '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" />' +
+                '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">PassWord</label> <input type="password" class="password" id="password" />';
+
+        }
+
+        else if (progtype == "3") {
+            $("#Textid").empty();
+            //var cssdata = "";
+           var cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress"/>' +
+                '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" />' +
+                '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">PassWord</label> <input type="password" class="password" id="password" />' +
+                '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Port</label> <input type="number" class="port" id="port" />' +
+                '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Domain</label> <input type="domain" class="domain" id="domain" />';
+
+        }
+        $("#Textid").append(cssdata);
+        
+        //$(cssdata).appendTo($('Textid'));
+
+    });
+</script>
