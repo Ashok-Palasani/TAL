@@ -41,7 +41,7 @@
                                     <th>MachineInvNo.</th>
                                     <th>Program Type</th>
                                     <th>Machine Model</th>
-                                    <th>Machine Display Name</th>                                    
+                                    <th>Machine Display Name</th>
                                     <th style="width: 54px;">Action</th>
                                 </tr>
                             </thead>
@@ -61,7 +61,7 @@
                                             <ul class="actionbtnn">
                                                 <li class="actionbtn"><a href="#" id="@(@item.PTdMID)" class="btn btn-round btn-info MachineEdit" data-target="#edit-plant" data-title="Edit" data-toggle="modal"><i class="fa fa-pencil fa_lg" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="Edit Plant Details"></i></a></li>
                                                 <li class="actionbtn">@*<a href="@Url.Action("EditMachine", "Machines", new { id = item.PTdMID })" id="@(@item.PTdMID)" class="btn btn-round btn-info Category @*Machine1"><i class="fa fa-pencil fa_lg" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="Edit Machine"></i></a></li>*@
-<li class="actionbtn"><button class="btn btn-round btn-danger deleteItem" data-id="@item.PTdMID" onclick="deleteTargetName('@item.PTdMID')" data-title="Edit" data-toggle="modal" data-target="#delete-plant"><i class="fa fa-trash fa-lg" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="Delete Machine details"></i></button></li>
+                                                <li class="actionbtn"><button class="btn btn-round btn-danger deleteItem Machinedelete" id="@(@item.PTdMID)"  data-title="Edit" data-toggle="modal" data-target="#delete-plant"><i class="fa fa-trash fa-lg" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="Delete Machine details"></i></button></li>
 
                                                 <!-- Delete Modal Start -->
                                                 <div class="modal fade" id="delete-plant" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="myModalLabel">
@@ -142,8 +142,8 @@
                                                                                 <div class="col-sm-3">
                                                                                     <input type="text" class="form-control1" id="EditControllerType" placeholder="ControllerType">
                                                                                     @*@Html.TextBoxFor(model => model.PT.ControllerType, new { @id = "EditControllerType", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "ControllerType" })*@
-                                                                                </div>                                                                         
-                                                                               
+                                                                                </div>
+
                                                                             </div>
                                                                             <div class="row row-space">
                                                                                 <label class="col-sm-1 control-label adjust-label">Machine Display Name</label>
@@ -154,50 +154,89 @@
                                                                                 <label class="col-sm-1 control-label adjust-label">M/c Make</label>
                                                                                 <div class="col-sm-3">
                                                                                     <input type="text" class="form-control1" id="EditMachineMake" placeholder="MachineMake">
-                                                                                    @*@Html.TextBoxFor(model => model.PT.MachineMake, new { @id = "EditMachineMake", @class = "second", @style = "font-size:75%;width:25%", @placeholder = "MachineMake" })*@
                                                                                 </div>
                                                                                 <label class="col-sm-1 control-label adjust-label">Program Type</label>
                                                                                 <div class="col-sm-3">
                                                                                     <select id="EditProgramType" class="form-control">
                                                                                         <option selected="selected" value="0">--Select Program Type--</option>
                                                                                     </select>
-                                                                                    @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
-                                                                                    @*@Html.DropDownList("ProgramType", null, "--Select ProgramType--", new { @id = "EditProgramType", @class = "second", @name = "ProgramType", @required = "required", @style = "aria-expanded:false;font-size:75%;width:25%", @value = ViewData["ProgramType"] })*@
                                                                                 </div>
-                                                                                </div>
-                                                                                <div class="row row-space" id="EditTextid">
-                                                                                    <label class="col-sm-1 control-label adjust-label lblip">Ip Address</label>
-                                                                                    <div class="col-sm-3 DivIPAddress" >
-                                                                                        <input type="Text" class="form-control1" id="Editipaddress" placeholder="IP Address" />
+                                                                            </div>
+                                                                            <p class="row row-space" id="AddTextid">
+                                                                                <div class="row row-space">
+                                                                                    <div id="DivIPAddress" style="display:none">
+                                                                                        <label class="col-sm-1 control-label adjust-label">Ip Address</label>
+                                                                                        <div class="col-sm-3">
+                                                                                            <input type="Text" class="form-control1" id="Editipaddress" placeholder="IP Address" />
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <label class="col-sm-1 control-label adjust-label lblusr">UserName</label>
-                                                                                    <div class="col-sm-3 DivUsername" >
-                                                                                        <input type="Text" class="form-control1" id="EditUserName" placeholder="User Name" />
+                                                                                    <div id="DivPort" style="display:none">
+                                                                                        <label class="col-sm-1 control-label adjust-label">Port</label>
+                                                                                        <div class="col-sm-3">
+                                                                                            <input type="Text" class="form-control1" id="EditPort" placeholder="Port Number" />
+                                                                                        </div>
                                                                                     </div>
-
-                                                                                    <label class="col-sm-1 control-label adjust-label lblpwd">Password</label>
-                                                                                    <div class="col-sm-3 DivPwd" id="DivPwd">
-                                                                                        <input type="Text" class="form-control1" id="EditPwd" placeholder="Password" />
+                                                                                    <div id="DivPath" style="display:none">
+                                                                                        <label class="col-sm-1 control-label adjust-label">Machine Program Path</label>
+                                                                                        <div class="col-sm-3">
+                                                                                            <input type="Text" class="form-control1" id="EditPathName" placeholder="Enter Machine Program Path" />
+                                                                                        </div>
                                                                                     </div>
-
                                                                                 </div>
                                                                                 <div class="row row-space">
-
-                                                                                    <label class="col-sm-1 control-label adjust-label lblport">Port</label>
-                                                                                    <div class="col-sm-3 DivPort" >
-                                                                                        <input type="Text" class="form-control1" id="EditPort" placeholder="Port Number" />
+                                                                                    <div id="DivUsername" style="display:none">
+                                                                                        <label class="col-sm-1 control-label adjust-label">UserName</label>
+                                                                                        <div class="col-sm-3">
+                                                                                            <input type="Text" class="form-control1" id="EditUserName" placeholder="User Name" />
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <label class="col-sm-1 control-label adjust-label lbldmn">Domain</label>
-                                                                                    <div class="col-sm-3 DivDmn">
-                                                                                        <input type="Text" class="form-control1" id="EditDomain" placeholder="Domain" />
+                                                                                    <div id="DivPwd" style="display:none">
+                                                                                        <label class="col-sm-1 control-label adjust-label">Password</label>
+                                                                                        <div class="col-sm-3">
+                                                                                            <input type="password" class="form-control1" id="EditPwd" placeholder="Password" />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div id="DivDmn" style="display:none">
+                                                                                        <label class="col-sm-1 control-label adjust-label">Domain</label>
+                                                                                        <div class="col-sm-3">
+                                                                                            <input type="Text" class="form-control1" id="EditDomain" placeholder="Domain" />
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
+                                                                            </p>
+                                                                            @*<div class="row row-space" id="EditTextid">
+                                                                                <label class="col-sm-1 control-label adjust-label lblip">Ip Address</label>
+                                                                                <div class="col-sm-3 DivIPAddress">
+                                                                                    <input type="Text" class="form-control1" id="Editipaddress" placeholder="IP Address" />
+                                                                                </div>
+                                                                                <label class="col-sm-1 control-label adjust-label lblusr">UserName</label>
+                                                                                <div class="col-sm-3 DivUsername">
+                                                                                    <input type="Text" class="form-control1" id="EditUserName" placeholder="User Name" />
+                                                                                </div>
+
+                                                                                <label class="col-sm-1 control-label adjust-label lblpwd">Password</label>
+                                                                                <div class="col-sm-3 DivPwd" id="DivPwd">
+                                                                                    <input type="Text" class="form-control1" id="EditPwd" placeholder="Password" />
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="row row-space">
+
+                                                                                <label class="col-sm-1 control-label adjust-label lblport">Port</label>
+                                                                                <div class="col-sm-3 DivPort">
+                                                                                    <input type="Text" class="form-control1" id="EditPort" placeholder="Port Number" />
+                                                                                </div>
+                                                                                <label class="col-sm-1 control-label adjust-label lbldmn">Domain</label>
+                                                                                <div class="col-sm-3 DivDmn">
+                                                                                    <input type="Text" class="form-control1" id="EditDomain" placeholder="Domain" />
+                                                                                </div>
+                                                                            </div>*@
                                                                         </form>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="submit" id="btnupdate" class="btn btn-info editupdate"><i class="fa fa-floppy-o" aria-hidden="true"></i> Update</button>
+                                                                <button type="submit" id="btnupdate" class="btn btn-info editupdate_@item.PTdMID"><i class="fa fa-floppy-o" aria-hidden="true"></i> Update</button>
                                                                 <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                                                             </div>
                                                         </div>
@@ -243,7 +282,7 @@
                                                     <div class="row row-space">
                                                         <label class="col-sm-1 control-label adjust-label">MachineInvNo</label>
                                                         <div class="col-sm-3">
-                                                            @Html.TextBoxFor(model => model.PT.MachineInvNo, new { @id = "MachineInvNo", @class = "form-control second",  @placeholder = "MachineInvNo" })
+                                                            @Html.TextBoxFor(model => model.PT.MachineInvNo, new { @id = "MachineInvNo", @class = "form-control second", @placeholder = "MachineInvNo" })
                                                             @*<input type="text" class="form-control1" id="" placeholder="Machine Name">*@
                                                         </div>
 
@@ -251,16 +290,16 @@
                                                         <label class="col-sm-1 control-label adjust-label">M/c Model</label>
                                                         <div class="col-sm-3">
                                                             @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
-                                                            @Html.TextBoxFor(model => model.PT.MachineModel, new { @id = "MachineModel", @class = "form-control second",  @placeholder = "MachineModel" })
+                                                            @Html.TextBoxFor(model => model.PT.MachineModel, new { @id = "MachineModel", @class = "form-control second", @placeholder = "MachineModel" })
                                                         </div>
                                                         <label class="col-sm-1 control-label">Controller Type</label>
                                                         <div class="col-sm-3">
                                                             @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
-                                                            @Html.TextBoxFor(model => model.PT.ControllerType, new { @id = "ControllerType", @class = "form-control second",  @placeholder = "ControllerType" })
+                                                            @Html.TextBoxFor(model => model.PT.ControllerType, new { @id = "ControllerType", @class = "form-control second", @placeholder = "ControllerType" })
                                                         </div>
                                                     </div>
 
-                                                  
+
                                                     <div class="row row-space">
                                                         <label class="col-sm-1 control-label adjust-label">Machine Display Name</label>
                                                         <div class="col-sm-3">
@@ -275,11 +314,52 @@
                                                         <label class="col-sm-1 control-label adjust-label">Program Type</label>
                                                         <div class="col-sm-3">
                                                             @*<input type="text" class="form-control1" id="" placeholder="Machine Display Name">*@
-                                                            @Html.DropDownList("ProgramType", null, "--Select ProgramType--", new { @id = "ProgramType", @class = "form-control second", @name = "ProgramType", @required = "required",  @value = ViewData["ProgramType"] })
+                                                            @Html.DropDownList("ProgramType", null, "--Select ProgramType--", new { @id = "ProgramType", @class = "form-control second", @name = "ProgramType", @required = "required", @value = ViewData["ProgramType"] })
                                                         </div>
 
-                                                        <div class="row row-space" id="AddTextid">                                                            
-                                                        </div>
+                                                        <p class="row row-space" id="AddTextid">
+                                                            <div class="row row-space">
+                                                                <div id="divip" style="display:none">
+                                                                    <label class="col-sm-1 control-label adjust-label">Ip Address</label>
+                                                                    <div class="col-sm-3">
+                                                                        <input type="Text" class="form-control1" id="ipaddress" placeholder="IP Address" />
+                                                                    </div>
+                                                                </div>
+                                                                <div id="divPort" style="display:none">
+                                                                    <label class="col-sm-1 control-label adjust-label">Port</label>
+                                                                    <div class="col-sm-3">
+                                                                        <input type="Text" class="form-control1" id="port" placeholder="Port Number" />
+                                                                    </div>
+                                                                </div>
+                                                                <div id="divPath" style="display:none">
+                                                                    <label class="col-sm-1 control-label adjust-label">Machine Program Path</label>
+                                                                    <div class="col-sm-3">
+                                                                        <input type="Text" class="form-control1" id="PathName" placeholder="Enter Machine Program Path" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row row-space">
+                                                                <div id="divUsr" style="display:none">
+                                                                    <label class="col-sm-1 control-label adjust-label">UserName</label>
+                                                                    <div class="col-sm-3">
+                                                                        <input type="Text" class="form-control1" id="Username" placeholder="User Name" />
+                                                                    </div>
+                                                                </div>
+                                                                <div id="divpassword" style="display:none">
+                                                                    <label class="col-sm-1 control-label adjust-label">Password</label>
+                                                                    <div class="col-sm-3">
+                                                                        <input type="password" class="form-control1" id="password" placeholder="Password" />
+                                                                    </div>
+                                                                </div>
+                                                                <div id="divDomain" style="display:none">
+                                                                    <label class="col-sm-1 control-label adjust-label">Domain</label>
+                                                                    <div class="col-sm-3">
+                                                                        <input type="Text" class="form-control1" id="domain" placeholder="Domain" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </p>
+
                                                     </div>
 
                                                 </form>
@@ -309,251 +389,253 @@
 
 <script src="~/js/jquery-2.1.4.min.js"></script>
 <script src="~/js/moment/MachineMaster.js"></script>
-@*<script>
-    $("#EditPlant").on("change", function (e) {
-        var PID = $(this).val();
-        //alert(PID)
-        //debugger;
-        $.getJSON("/Machines/FetchDept", { PID: PID }, function (data) {
-            $("#Editdeptid").empty();
-            $("#Editdeptid").append("<option value = ''> --Select Shop-- </option>")
-            $.each(data, function (index, item) {
-                $("#Editdeptid").append("<option value = '" + item.Value + "'>" + item.Text + "</option>")
-            });
-        });
-    });
-
-    $("#Editdeptid").on("change", function (e) {
-        var DeptID = $(this).val();
-        //alert(DeptID)
-        $.getJSON("/Machines/FetchCat", { DeptID: DeptID }, function (data) {
-            $("#EditMachineCategory").empty();
-            $("#EditMachineCategory").append("<option value = ''> --Select Cell-- </option>")
-            $.each(data, function (index, item) {
-                $("#EditMachineCategory").append("<option value = '" + item.Value + "'>" + item.Text + "</option>")
-            });
-        });
-    });
-
-    $(".Plant").on("change", function (e) {
-        var PID = $(this).val();
-        //alert(PID)
-        //debugger;
-        $.getJSON("/Machines/FetchDept", { PID: PID }, function (data) {
-            $(".DepartmentID").empty();
-            $(".DepartmentID").append("<option value = ''> --Select Shop-- </option>")
-            $.each(data, function (index, item) {
-                $(".DepartmentID").append("<option value = '" + item.Value + "'>" + item.Text + "</option>")
-            });
-        });
-    });
-
-
-    $(".DepartmentID").on("change", function (e) {
-        var DeptID = $(this).val();
-        //alert(DeptID)
-        $.getJSON("/Machines/FetchCat", { DeptID: DeptID }, function (data) {
-            $(".MachCat").empty();
-            $(".MachCat").append("<option value = ''> --Select Cell-- </option>")
-            $.each(data, function (index, item) {
-                $(".MachCat").append("<option value = '" + item.Value + "'>" + item.Text + "</option>")
-            });
-        });
-    });
-
-    function deleteTargetName(productvariant) {
-        $(".deleteTargetName").empty();
-        $(".deleteTargetName").html("Role Name: " +
-            productvariant);
-    }
-
-    var item_to_delete;
-    $(".deleteItem").click(function (e) {
-        item_to_delete = $(this).data('id');
-        //alert(item_to_delete);
-    });
-    $('.btnContinueDelete').click(function () {
-        //  alert("hi");
-        window.location = "/Machines/DeleteMachine/" + "?id=" + item_to_delete;
-    });
-
-
-</script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#MachineName').change(function () {
-            var val = $('#MachineName').val();
-            $('#MachineDisplayName').val(val);
-        });
-    });
-</script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#EditMachineName').change(function () {
-            var val = $('#EditMachineName').val();
-            $('#EditMachineDisplayName').val(val);
-        });
-    });
-</script>*@
+@*<link href="~/css/custom.css" rel="stylesheet" />*@
 
 @*<script>
-    $(document).ready(function () {
-        var id = $("#hdntxt").val();
-        $.getJSON("/Machines/GetElemet", { Id: id }, function (data) {
-            $.each(data, function (index, item) {
-                $("#EditProgramType").val(item.programtype);
-                var programtype = item.programtype;
-                if (programtype == 1) {
-                    var cssdata = "";
-                    cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress" value="' + item.ipaddress + '"/>';
+        $("#EditPlant").on("change", function (e) {
+            var PID = $(this).val();
+            //alert(PID)
+            //debugger;
+            $.getJSON("/Machines/FetchDept", { PID: PID }, function (data) {
+                $("#Editdeptid").empty();
+                $("#Editdeptid").append("<option value = ''> --Select Shop-- </option>")
+                $.each(data, function (index, item) {
+                    $("#Editdeptid").append("<option value = '" + item.Value + "'>" + item.Text + "</option>")
+                });
+            });
+        });
 
-                }
-                else if (programtype == 2) {
-                    var cssdata = "";
-                    cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress" value="' + item.ipaddress + '"/>' +
-                        '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" value="' + item.username + '"/>' +
-                        '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">PassWord</label> <input type="password" class="password" id="password" value="' + item.password + '"/>';
+        $("#Editdeptid").on("change", function (e) {
+            var DeptID = $(this).val();
+            //alert(DeptID)
+            $.getJSON("/Machines/FetchCat", { DeptID: DeptID }, function (data) {
+                $("#EditMachineCategory").empty();
+                $("#EditMachineCategory").append("<option value = ''> --Select Cell-- </option>")
+                $.each(data, function (index, item) {
+                    $("#EditMachineCategory").append("<option value = '" + item.Value + "'>" + item.Text + "</option>")
+                });
+            });
+        });
 
-                }
-                else if (programtype == 3) {
-                    var cssdata = "";
-                    cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress" value="' + item.ipaddress + '"/>' +
-                        '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" value="' + item.username + '"/>' +
-                        '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">PassWord</label> <input type="password" class="password" id="password" value="' + item.password + '"/>' +
-                        '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Port</label> <input type="number" class="port" id="port" value="' + item.port + '"/>' +
-                        '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Domain</label> <input type="domain" class="domain" id="domain" value="' + item.domain + '"/>';
+        $(".Plant").on("change", function (e) {
+            var PID = $(this).val();
+            //alert(PID)
+            //debugger;
+            $.getJSON("/Machines/FetchDept", { PID: PID }, function (data) {
+                $(".DepartmentID").empty();
+                $(".DepartmentID").append("<option value = ''> --Select Shop-- </option>")
+                $.each(data, function (index, item) {
+                    $(".DepartmentID").append("<option value = '" + item.Value + "'>" + item.Text + "</option>")
+                });
+            });
+        });
 
+
+        $(".DepartmentID").on("change", function (e) {
+            var DeptID = $(this).val();
+            //alert(DeptID)
+            $.getJSON("/Machines/FetchCat", { DeptID: DeptID }, function (data) {
+                $(".MachCat").empty();
+                $(".MachCat").append("<option value = ''> --Select Cell-- </option>")
+                $.each(data, function (index, item) {
+                    $(".MachCat").append("<option value = '" + item.Value + "'>" + item.Text + "</option>")
+                });
+            });
+        });
+
+        function deleteTargetName(productvariant) {
+            $(".deleteTargetName").empty();
+            $(".deleteTargetName").html("Role Name: " +
+                productvariant);
+        }
+
+        var item_to_delete;
+        $(".deleteItem").click(function (e) {
+            item_to_delete = $(this).data('id');
+            //alert(item_to_delete);
+        });
+        $('.btnContinueDelete').click(function () {
+            //  alert("hi");
+            window.location = "/Machines/DeleteMachine/" + "?id=" + item_to_delete;
+        });
+
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#MachineName').change(function () {
+                var val = $('#MachineName').val();
+                $('#MachineDisplayName').val(val);
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#EditMachineName').change(function () {
+                var val = $('#EditMachineName').val();
+                $('#EditMachineDisplayName').val(val);
+            });
+        });
+    </script>*@
+
+@*<script>
+        $(document).ready(function () {
+            var id = $("#hdntxt").val();
+            $.getJSON("/Machines/GetElemet", { Id: id }, function (data) {
+                $.each(data, function (index, item) {
+                    $("#EditProgramType").val(item.programtype);
+                    var programtype = item.programtype;
+                    if (programtype == 1) {
+                        var cssdata = "";
+                        cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress" value="' + item.ipaddress + '"/>';
+
+                    }
+                    else if (programtype == 2) {
+                        var cssdata = "";
+                        cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress" value="' + item.ipaddress + '"/>' +
+                            '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" value="' + item.username + '"/>' +
+                            '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">PassWord</label> <input type="password" class="password" id="password" value="' + item.password + '"/>';
+
+                    }
+                    else if (programtype == 3) {
+                        var cssdata = "";
+                        cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress" value="' + item.ipaddress + '"/>' +
+                            '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" value="' + item.username + '"/>' +
+                            '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">PassWord</label> <input type="password" class="password" id="password" value="' + item.password + '"/>' +
+                            '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Port</label> <input type="number" class="port" id="port" value="' + item.port + '"/>' +
+                            '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Domain</label> <input type="domain" class="domain" id="domain" value="' + item.domain + '"/>';
+
+                    }
+
+                });
+            });
+        });
+    </script>*@
+
+@*<script>
+        $(document).on("click", "#savebtn", function (e) {
+            var ipaddress = "";
+            var username = "";
+            var password = "";
+            var port = 0;
+            var domain = "";
+            var plantid = parseInt( $("#plantID").val());
+            var shopid = parseInt( $("#DepartmentID").val());
+            var cellid = parseInt( $("#MachineCategoryID").val());
+            var MachineInvNo = $("#MachineInvNo").val();
+            var MachineModel = $("#MachineModel").val();
+            var ControllerType = $("#ControllerType").val();
+            var MachineDispName = $("#MachineDispName").val();
+            var MachineMake = $("#MachineMake").val();
+
+            var programtype = $("#ProgramType").val();
+            if (programtype == 1) {
+                ipaddress = $("#ipaddress").val();
+            }
+            else if (programtype == 2) {
+                ipaddress = $("#ipaddress").val();
+                username = $("#Username").val();
+                password = $("#password").val();
+            }
+            else if (programtype == 3) {
+                ipaddress = $("#ipaddress").val();
+                username = $("#Username").val();
+                password = $("#password").val();
+                port =  parseInt($("#port").val());
+                domain = $("#domain").val();
+            }
+            $.post("/Machines/CreateData", { plantid, shopid, cellid, MachineInvNo, MachineModel, ControllerType, MachineDispName, MachineMake, programtype, ipaddress, username, password, port, domain }, function (msg) {
+                if (msg == "Success") {
+                    alert("Machine details Created Successfully");
+                    window.location.href = "/Machines/Index";
                 }
 
             });
         });
-    });
-</script>*@
+    </script>*@
+
 
 @*<script>
-    $(document).on("click", "#savebtn", function (e) {
-        var ipaddress = "";
-        var username = "";
-        var password = "";
-        var port = 0;
-        var domain = "";
-        var plantid = parseInt( $("#plantID").val());
-        var shopid = parseInt( $("#DepartmentID").val());
-        var cellid = parseInt( $("#MachineCategoryID").val());
-        var MachineInvNo = $("#MachineInvNo").val();
-        var MachineModel = $("#MachineModel").val();
-        var ControllerType = $("#ControllerType").val();
-        var MachineDispName = $("#MachineDispName").val();
-        var MachineMake = $("#MachineMake").val();
+        $(document).on("click", "#btnupdate", function (e) {
+            var ipaddress = "";
+            var username = "";
+            var password = "";
+            var port = "";
+            var domain = "";
+            var id = $("#hdntxt").val();
+            var plantid = $("#EditPlant").val();
+            var shopid = $("#Editdeptid").val();
+            var cellid = $("#EditMachineCategory").val();
+            var MachineInvNo = $("#EditMachineInvNo").val();
+            var ControllerType = $("#EditControllerType").val();
+            var MachineDispName = $("#EditMachineDispName").val();
+            var MachineMake = $("#EditMachineMake").val();
+            var MachineModel = $("#EditMachineModel").val();
 
-        var programtype = $("#ProgramType").val();
-        if (programtype == 1) {
-            ipaddress = $("#ipaddress").val();
-        }
-        else if (programtype == 2) {
-            ipaddress = $("#ipaddress").val();
-            username = $("#Username").val();
-            password = $("#password").val();
-        }
-        else if (programtype == 3) {
-            ipaddress = $("#ipaddress").val();
-            username = $("#Username").val();
-            password = $("#password").val();
-            port =  parseInt($("#port").val());
-            domain = $("#domain").val();
-        }
-        $.post("/Machines/CreateData", { plantid, shopid, cellid, MachineInvNo, MachineModel, ControllerType, MachineDispName, MachineMake, programtype, ipaddress, username, password, port, domain }, function (msg) {
-            if (msg == "Success") {
-                alert("Machine details Created Successfully");
-                window.location.href = "/Machines/Index";
+            var programtype = $("#EditProgramType").val();
+            if (programtype == 1) {
+                ipaddress = $("#ipaddress").val();
+            }
+            else if (programtype == 2) {
+                ipaddress = $("#ipaddress").val();
+                username = $("#Username").val();
+                password = $("#password").val();
+            }
+            else if (programtype == 3) {
+                ipaddress = $("#ipaddress").val();
+                username = $("#Username").val();
+                password = $("#password").val();
+                port = $("#port").val();
+                domain = $("#domain").val();
+            }
+            $.get("/Machines/EditData", { id, plantid, shopid,  cellid,  MachineInvNo,  ControllerType,  MachineDispName, MachineMake: MachineMake,  MachineModel, programtype: programtype,  ipaddress,  username, password, port,  domain }, function (data) {
+                if (data == "Success") {
+                    alert("item Updated Successfully");
+                    window.location.href = "/Machines/MachineList";
+                }
+
+            });
+        });
+    </script>*@
+
+@*<script>
+        $(document).on("change", "#ProgramType", function (e) {
+        //$("#ProgramType").on("change", function () {
+            var id = this;
+            //var prog = this.val();
+            var progtype = $("#ProgramType").val();
+            //var cssdata = "";
+            $("#AddTextid").empty();
+            if (progtype == "1") {
+
+                var cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress"/>';
+
             }
 
-        });
-    });
-</script>*@
+            else if (progtype == "2") {
+                $("#AddTextid").empty();
+                //var cssdata = "";
+                var cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress"/>' +
+                    '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" />' +
+                    '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">PassWord</label> <input type="password" class="password" id="password" />';
 
-
-@*<script>
-    $(document).on("click", "#btnupdate", function (e) {
-        var ipaddress = "";
-        var username = "";
-        var password = "";
-        var port = "";
-        var domain = "";
-        var id = $("#hdntxt").val();
-        var plantid = $("#EditPlant").val();
-        var shopid = $("#Editdeptid").val();
-        var cellid = $("#EditMachineCategory").val();
-        var MachineInvNo = $("#EditMachineInvNo").val();
-        var ControllerType = $("#EditControllerType").val();
-        var MachineDispName = $("#EditMachineDispName").val();
-        var MachineMake = $("#EditMachineMake").val();
-        var MachineModel = $("#EditMachineModel").val();
-
-        var programtype = $("#EditProgramType").val();
-        if (programtype == 1) {
-            ipaddress = $("#ipaddress").val();
-        }
-        else if (programtype == 2) {
-            ipaddress = $("#ipaddress").val();
-            username = $("#Username").val();
-            password = $("#password").val();
-        }
-        else if (programtype == 3) {
-            ipaddress = $("#ipaddress").val();
-            username = $("#Username").val();
-            password = $("#password").val();
-            port = $("#port").val();
-            domain = $("#domain").val();
-        }
-        $.get("/Machines/EditData", { id, plantid, shopid,  cellid,  MachineInvNo,  ControllerType,  MachineDispName, MachineMake: MachineMake,  MachineModel, programtype: programtype,  ipaddress,  username, password, port,  domain }, function (data) {
-            if (data == "Success") {
-                alert("item Updated Successfully");
-                window.location.href = "/Machines/MachineList";
             }
 
+            else if (progtype == "3") {
+                $("#AddTextid").empty();
+                //var cssdata = "";
+               var cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress"/>' +
+                    '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" />' +
+                    '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">PassWord</label> <input type="password" class="password" id="password" />' +
+                    '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Port</label> <input type="number" class="port" id="port" />' +
+                    '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Domain</label> <input type="domain" class="domain" id="domain" />';
+
+            }
+            //$("#Textid").append(cssdata);
+
+            $(cssdata).appendTo($('#AddTextid'));
+
         });
-    });
-</script>*@
 
-@*<script>
-    $(document).on("change", "#ProgramType", function (e) {
-    //$("#ProgramType").on("change", function () {
-        var id = this;
-        //var prog = this.val();
-        var progtype = $("#ProgramType").val();
-        //var cssdata = "";
-        $("#AddTextid").empty();
-        if (progtype == "1") {
 
-            var cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress"/>';
-
-        }
-
-        else if (progtype == "2") {
-            $("#AddTextid").empty();
-            //var cssdata = "";
-            var cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress"/>' +
-                '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" />' +
-                '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">PassWord</label> <input type="password" class="password" id="password" />';
-
-        }
-
-        else if (progtype == "3") {
-            $("#AddTextid").empty();
-            //var cssdata = "";
-           var cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress"/>' +
-                '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" />' +
-                '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">PassWord</label> <input type="password" class="password" id="password" />' +
-                '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Port</label> <input type="number" class="port" id="port" />' +
-                '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Domain</label> <input type="domain" class="domain" id="domain" />';
-
-        }
-        //$("#Textid").append(cssdata);
-        
-        $(cssdata).appendTo($('#AddTextid'));
-
-    });
-
- 
-</script>*@
+    </script>*@

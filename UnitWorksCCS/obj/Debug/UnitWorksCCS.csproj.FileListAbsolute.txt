@@ -195,3 +195,4 @@ D:\Github\Ashok\TAL_DNC\UnitWorksCCS\obj\Debug\UnitWorksCCS.csproj.CoreCompileIn
 D:\Github\Ashok\TAL_DNC\UnitWorksCCS\obj\Debug\UnitWorksCCS.csproj.CopyComplete
 D:\Github\Ashok\TAL_DNC\UnitWorksCCS\obj\Debug\UnitWorksCCS.dll
 D:\Github\Ashok\TAL_DNC\UnitWorksCCS\obj\Debug\UnitWorksCCS.pdb
+D:\Github\Ashok\TAL_DNC\UnitWorksCCS\obj\Debug\UnitWorksCCS.csprojAssemblyReference.cache

@@ -56,7 +56,7 @@ namespace UnitWorksCCS.Controllers
         }
 
         [HttpPost]
-        public string CreateData(int plantid, int shopid, int cellid, string MachineInvNo, string MachineModel, string ControllerType, string MachineDispName, string MachineMake, int programtype, string ipaddress, string username, string password, int port, string domain)
+        public string CreateData(int plantid, int shopid, int cellid, string MachineInvNo, string MachineModel, string ControllerType, string MachineDispName, string MachineMake, int programtype, string ipaddress, string username, string password, int port, string domain,string ProgramPath)
         {
             string res = "";
 
@@ -75,6 +75,7 @@ namespace UnitWorksCCS.Controllers
             obj.MachineModel = MachineModel;
             obj.ControllerType = ControllerType;
             obj.Domain = domain;
+            obj.MachineProgramPath = ProgramPath;
             obj.CreatedOn = DateTime.Now;
             obj.CreatedBy = Convert.ToInt32( Session["UserId"]);
             using (i_facility_talEntities db = new i_facility_talEntities())
@@ -122,11 +123,17 @@ namespace UnitWorksCCS.Controllers
             ViewBag.ProgramType = new SelectList(db.tblprogramTypes.Where(m => m.Isdeleted == 0), "ptypeid", "TypeName", machine.ProgramType);
             return View(machine);
         }
+
+        [HttpPost]
         //Update Machine
-        public string EditData(int id, int plantid, int shopid, int cellid, string MachineInvNo, string ControllerType, string MachineDispName,string MachineMake, string MachineModel, int programtype, string ipaddress, string username, string password, int port, string domain)
+        public string EditData(int id, int plantid, int shopid, int cellid, string MachineInvNo, string ControllerType, string MachineDispName, string MachineMake, string MachineModel, int programtype, string ipaddress, string username, string password, int port, string domain,string ProgramPath)
         {
             string res = "";
-            var obj = db.tblProgramTransferDetailsMasters.Where(m => m.Isdeleted == 0 && m.PTdMID == id).FirstOrDefault();
+            tblProgramTransferDetailsMaster obj = new tblProgramTransferDetailsMaster();
+            using (i_facility_talEntities db = new i_facility_talEntities())
+            {
+                 obj = db.tblProgramTransferDetailsMasters.Where(m => m.Isdeleted == 0 && m.PTdMID == id).FirstOrDefault();
+            }
             if (obj != null)
             {
                 obj.CellId = cellid;
@@ -143,7 +150,14 @@ namespace UnitWorksCCS.Controllers
                 obj.MachineModel = MachineModel;
                 obj.ControllerType = ControllerType;
                 obj.Domain = domain;
-                db.SaveChanges();
+                obj.MachineProgramPath = ProgramPath;
+                obj.ModifiedOn = DateTime.Now;
+                obj.ModifiedBy = Convert.ToInt32(Session["UserId"]);
+                using (i_facility_talEntities db = new i_facility_talEntities())
+                {
+                    db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
                 res = "Success";
             }
 
@@ -151,24 +165,37 @@ namespace UnitWorksCCS.Controllers
         }
 
 
-        //Delete Machine
-        public ActionResult DeleteMachine(int id)
-        {
+        ////Delete Machine
+        //public ActionResult DeleteMachine(int id)
+        //{
             
-            tblProgramTransferDetailsMaster tblmc = db.tblProgramTransferDetailsMasters.Find(id);
+        //    tblProgramTransferDetailsMaster tblmc = db.tblProgramTransferDetailsMasters.Find(id);
            
-            tblmc.Isdeleted = 1;
-            tblmc.ModifiedBy = 1;
-            tblmc.ModifiedOn = DateTime.Now;
+        //    tblmc.Isdeleted = 1;
+        //    tblmc.ModifiedBy = 1;
+        //    tblmc.ModifiedOn = DateTime.Now;
+        //    db.Entry(tblmc).State = EntityState.Modified;
+        //    db.SaveChanges();
+
+           
+
+        //    return RedirectToAction("MachineList");
+        //}
+
+
+        public string DeleteMachine(int id)
+        {
+            string res = "";
+            tblProgramTransferDetailsMaster tblmc = db.tblProgramTransferDetailsMasters.Find(id);
+
+            tblmc.Isdeleted = 1;       
             db.Entry(tblmc).State = EntityState.Modified;
             db.SaveChanges();
-
-           
-
-            return RedirectToAction("MachineList");
+            res = "success";
+            return res;           
         }
 
-        
+
         //Machine Table End
 
         public JsonResult FetchDept(int PID)

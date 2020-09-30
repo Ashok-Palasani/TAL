@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     GetPlant();
-
+    
     function GetPlant() {
         $.get("/Machines/GetPlant", {}, function (msg) {
             var ddlPlant = $("#EditPlantID");
@@ -145,40 +145,50 @@
 
     //On change of ProgramType
     $(document).on("change", "#ProgramType", function (e) {
-        //$("#ProgramType").on("change", function () {
-        var id = this;
-        //var prog = this.val();
+        
         var progtype = $("#ProgramType").val();
-        //var cssdata = "";
-        $("#AddTextid").empty();
+        var cssdata = "";
+      
         if (progtype == "1") {
-
-            var cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress"/>';
-
+           
+            $('#divip').show();
+            $('#divPath').show();          
+            $('#divPort').hide();
+            $('#divUsr').hide();
+            $('#divpassword').hide();
+            $('#divDomain').hide();
+          
         }
 
         else if (progtype == "2") {
-            $("#AddTextid").empty();
-            //var cssdata = "";
-            var cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress"/>' +
-                '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" />' +
-                '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">PassWord</label> <input type="password" class="password" id="password" />';
-
+            //FTP 
+            $('#divip').show();
+            $('#divPort').show();
+            $('#divUsr').show();
+            $('#divpassword').show();
+            $('#divPath').show();            
+            $('#divDomain').hide();
         }
 
         else if (progtype == "3") {
-            $("#AddTextid").empty();
-            //var cssdata = "";
-            var cssdata = '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Ip Address</label><input type="Text" class="ipaddress" id="ipaddress"/>' +
-                 '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">UserName</label> <input type="Text" class="Username" id="Username" />' +
-                 '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">PassWord</label> <input type="password" class="password" id="password" />' +
-                 '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Port</label> <input type="number" class="port" id="port" />' +
-                 '<label for="input-1" class="stacked-label" style="resize: horizontal;padding-top: 2%;padding-left: 14px;width: 10%;color: blue;font-style: oblique;">Domain</label> <input type="domain" class="domain" id="domain" />';
-
+            $('#divip').show();
+            $('#divPort').show();
+            $('#divUsr').show();
+            $('#divpassword').show();
+            $('#divPath').show();           
+            $('#divDomain').show();
         }
-        //$("#Textid").append(cssdata);
-
-        $(cssdata).appendTo($('#AddTextid'));
+        else
+        {
+            $('#divip').hide();
+            $('#divPath').hide();
+            $('#divPort').hide();
+            $('#divUsr').hide();
+            $('#divpassword').hide();
+            $('#divDomain').hide();
+        }
+       
+       
 
     });
 
@@ -189,6 +199,7 @@
         var password = "";
         var port = 0;
         var domain = "";
+        var ProgramPath = '';
         var plantid = parseInt($("#plantID").val());
         var shopid = parseInt($("#DepartmentID").val());
         var cellid = parseInt($("#MachineCategoryID").val());
@@ -197,30 +208,42 @@
         var ControllerType = $("#ControllerType").val();
         var MachineDispName = $("#MachineDispName").val();
         var MachineMake = $("#MachineMake").val();
-
+        var portval = $("#port").val();
         var programtype = $("#ProgramType").val();
         if (programtype == 1) {
             ipaddress = $("#ipaddress").val();
+            ProgramPath = $("#PathName").val();
+            portval = 'no port';
         }
         else if (programtype == 2) {
             ipaddress = $("#ipaddress").val();
             username = $("#Username").val();
             password = $("#password").val();
+            if (portval != '')
+                port = parseInt(portval);
+            ProgramPath = $("#PathName").val();
         }
         else if (programtype == 3) {
             ipaddress = $("#ipaddress").val();
             username = $("#Username").val();
             password = $("#password").val();
-            port = parseInt($("#port").val());
+            if (portval != '')
+                port = parseInt(portval);
             domain = $("#domain").val();
         }
-        $.post("/Machines/CreateData", { plantid, shopid, cellid, MachineInvNo, MachineModel, ControllerType, MachineDispName, MachineMake, programtype, ipaddress, username, password, port, domain }, function (msg) {
-            if (msg == "Success") {
-                alert("Machine details Created Successfully");
-                window.location.href = "/Machines/MachineList";
-            }
+        if (portval != 0 && MachineInvNo != '' && programtype != 0 && plantid != 0 && shopid != 0 && cellid != 0) {
+            $.post("/Machines/CreateData", { plantid, shopid, cellid, MachineInvNo, MachineModel, ControllerType, MachineDispName, MachineMake, programtype, ipaddress, username, password, port, domain, ProgramPath }, function (msg) {
+                if (msg == "Success") {
+                    alert("Machine details Created Successfully");
+                    window.location.href = "/Machines/MachineList";
+                }
 
-        });
+            });
+        }
+        else
+        {
+            alert("Please enter all the Fields");
+        }
     });
 
     //Update Machine Details
@@ -228,41 +251,54 @@
         var ipaddress = "";
         var username = "";
         var password = "";
-        var port = "";
+        var port = 0;
         var domain = "";
-        var id = $("#hdntxt").val();
-        var plantid = $("#EditPlant").val();
-        var shopid = $("#Editdeptid").val();
-        var cellid = $("#EditMachineCategory").val();
+        
+        var id = parseInt($("#hdntxt").val());      
+        var plantid =parseInt( $("#EditPlantID").val());
+        var shopid = parseInt($("#EditShopID").val());
+        var cellid = parseInt($("#EditCellID").val());
         var MachineInvNo = $("#EditMachineInvNo").val();
         var ControllerType = $("#EditControllerType").val();
         var MachineDispName = $("#EditMachineDispName").val();
         var MachineMake = $("#EditMachineMake").val();
         var MachineModel = $("#EditMachineModel").val();
-
-        var programtype = $("#EditProgramType").val();
+        var ProgramPath = $('#EditPathName').val();
+        var programtype = parseInt($("#EditProgramType").val());
+        var portval = $("#EditPort").val();
         if (programtype == 1) {
-            ipaddress = $("#ipaddress").val();
+            ipaddress = $("#Editipaddress").val();
+            portval = 'no port';
         }
         else if (programtype == 2) {
-            ipaddress = $("#ipaddress").val();
-            username = $("#Username").val();
-            password = $("#password").val();
+            ipaddress = $("#Editipaddress").val();
+            username = $("#EditUserName").val();
+            password = $("#EditPwd").val();
+            if (portval != '')
+                port = parseInt(portval);
         }
         else if (programtype == 3) {
-            ipaddress = $("#ipaddress").val();
-            username = $("#Username").val();
-            password = $("#password").val();
-            port = $("#port").val();
-            domain = $("#domain").val();
+            ipaddress = $("#Editipaddress").val();
+            username = $("#EditUserName").val();
+            password = $("#EditPwd").val();
+            if (portval != '')
+                port = parseInt(portval);
+            domain = $("#EditDomain").val();
         }
-        $.get("/Machines/EditData", { id, plantid, shopid, cellid, MachineInvNo, ControllerType, MachineDispName, MachineMake: MachineMake, MachineModel, programtype: programtype, ipaddress, username, password, port, domain }, function (data) {
-            if (data == "Success") {
-                alert("item Updated Successfully");
-                window.location.href = "/Machines/MachineList";
-            }
+        if (portval !='' && MachineInvNo != '' && programtype != 0 && plantid != 0 && shopid != 0 && cellid != 0) {
+            $.post("/Machines/EditData", { id, plantid, shopid, cellid, MachineInvNo, ControllerType, MachineDispName, MachineMake, MachineModel, programtype, ipaddress, username, password, port, domain, ProgramPath }, function (data) {
+                if (data == "Success") {
+                    alert("Machine Updated Successfully");
+                    window.location.href = "/Machines/MachineList";
+                }
 
-        });
+            });
+        }
+        else
+        {
+            alert("Please enter all the Fields");
+
+        }
     });
 
     //Edit Machinedetails
@@ -274,6 +310,7 @@
 
                 data = JSON.parse(msg);
                 if (data != null) {
+                    $("#hdntxt").val(ID);
                     GetPlantDetails(data.PlantID, data.Shopid, data.CellId);
                     //GetshopDetails(data.Shopid);
                     //GetCellDetails(data.CellId);
@@ -285,40 +322,29 @@
                     $("#EditMachineModel").val(data.MachineModel);
                     GetProgramDetails(data.ProgramType);
                     if (data.ProgramType == 1) {
-                        $('.lblip').show();
-                        $('.DivIPAddress').show();
-                        $("#Editipaddress").val(data.IpAddress);
+                      
+                        $('#DivIPAddress').show();
+                        $("#Editipaddress").val(data.IpAddress); 
+                        $('#DivPath').show(); 
+                        $('#EditPathName').val(data.MachineProgramPath);
 
-                        $('.lblusr').attr('display', 'none');
-                        $('.DivUsername').attr('display', 'none');
-                        $('.lblpwd').attr('display', 'none');
-                        $('.DivPwd').attr('display', 'none');
-
-                        $('.lblusr').hide();
-                        $('.DivUsername').hide();
-                        $('.lblpwd').hide();
-                        $('.DivPwd').hide();
-
-                        $('.lblport').hide();
-                        $('.DivPort').hide();
-                        $('.lbldmn').hide();
-                        $('.DivDmn').hide();
+                        $('#DivUsername').hide();                        
+                        $('#DivPwd').hide();                    
+                        $('#DivPort').hide();                        
+                        $('#DivDmn').hide();
                     }
                     else if (data.ProgramType == 2)
                     {
-                        $('.lblip').show();
-                        $('.DivIPAddress').show();
-                        $('.lblusr').show();
-                        $('.DivUsername').show();
-                        $('.lblpwd').show();
-                        $('.DivPwd').show();
+                       
+                        $('#DivIPAddress').show();                       
+                        $('#DivUsername').show();                        
+                        $('#DivPwd').show();
+                        $('#DivPath').show();
+                        
+                        $('#DivPort').show();                      
+                        $('#DivDmn').hide();
 
-                        $('.lblport').hide();
-                        $('.DivPort').hide();
-                        $('.lbldmn').hide();
-                        $('.DivDmn').hide();
-
-
+                        $('#EditPathName').val(data.MachineProgramPath);
                         $("#Editipaddress").val(data.IpAddress);
                         $("#EditUserName").val(data.UserName);
                         $("#EditPwd").val(data.Password);
@@ -327,44 +353,23 @@
                         
                     }
                     else if (data.ProgramType == 3) {
-                        $('.lblip').show();
-                        $('.DivIPAddress').show();
-                        $('.lblusr').show();
-                        $('.DivUsername').show();
-                        $('.lblpwd').show();
-                        $('.DivPwd').show();
-
-                        $('.lblport').show();
-                        $('.DivPort').show();
-                        $('.lbldmn').show();
-                        $('.DivDmn').show();
+                      
+                        $('#DivIPAddress').show();                       
+                        $('#DivUsername').show();                        
+                        $('#DivPwd').show();
+                        $('#DivPort').show();                        
+                        $('#DivDmn').show();
+                        $('#DivPath').show();
 
                         $("#Editipaddress").val(data.IpAddress);
                         $("#EditUserName").val(data.UserName);
                         $("#EditPwd").val(data.Password);
                         $("#EditPort").val(data.Port);
                         $("#EditDomain").val(data.Domain);
+                        $('#EditPathName').val(data.MachineProgramPath);
                     }
-                }
-              
-               
-
-                //$("#EditProgramType").val();
-                //if (programtype == 1) {
-                //    ipaddress = $("#ipaddress").val();
-                //}
-                //else if (programtype == 2) {
-                //    ipaddress = $("#ipaddress").val();
-                //    username = $("#Username").val();
-                //    password = $("#password").val();
-                //}
-                //else if (programtype == 3) {
-                //    ipaddress = $("#ipaddress").val();
-                //    username = $("#Username").val();
-                //    password = $("#password").val();
-                //    port = $("#port").val();
-                //    domain = $("#domain").val();
-                //}
+                   
+                }              
             }
         });
 
@@ -376,61 +381,56 @@
         //var prog = this.val();
         var progtype = $("#EditProgramType").val();
        
-        if (progtype == "1") {
-
-            $('.lblip').show();
-            $('.DivIPAddress').show();
-            
-
-            $('.lblusr').attr('display', 'none');
-            $('.DivUsername').attr('display', 'none');
-            $('.lblpwd').attr('display', 'none');
-            $('.DivPwd').attr('display', 'none');
-
-            $('.lblusr').hide();
-            $('.DivUsername').hide();
-            $('.lblpwd').hide();
-            $('.DivPwd').hide();
-
-            $('.lblport').hide();
-            $('.DivPort').hide();
-            $('.lbldmn').hide();
-            $('.DivDmn').hide();
-
+        if (progtype == "1") {            
+            $('#DivIPAddress').show();
+            $('#DivPath').show();
+            $('#DivUsername').hide();
+            $('#DivPwd').hide();
+            $('#DivPort').hide();
+            $('#DivDmn').hide();
         }
 
         else if (progtype == "2") {
-            $('.lblip').show();
-            $('.DivIPAddress').show();
-            $('.lblusr').show();
-            $('.DivUsername').show();
-            $('.lblpwd').show();
-            $('.DivPwd').show();
+            $('#DivIPAddress').show();
+            $('#DivUsername').show();
+            $('#DivPwd').show();
+            $('#DivPath').show();
 
-            $('.lblport').hide();
-            $('.DivPort').hide();
-            $('.lbldmn').hide();
-            $('.DivDmn').hide();
+            $('#DivPort').show();
+            $('#DivDmn').hide();
         }
 
         else if (progtype == "3") {
-            $('.lblip').show();
-            $('.DivIPAddress').show();
-            $('.lblusr').show();
-            $('.DivUsername').show();
-            $('.lblpwd').show();
-            $('.DivPwd').show();
-
-            $('.lblport').show();
-            $('.DivPort').show();
-            $('.lbldmn').show();
-            $('.DivDmn').show();
-
+            $('#DivIPAddress').show();
+            $('#DivUsername').show();
+            $('#DivPwd').show();
+            $('#DivPort').show();
+            $('#DivDmn').show();
+            $('#DivPath').show();
         }
-      
+        else {
+            $('#DivPath').hide();
+            $('#DivIPAddress').hide();
+            $('#DivUsername').hide();
+            $('#DivPwd').hide();
+            $('#DivPort').hide();
+            $('#DivDmn').hide();
+        } 
+    });
 
-       
+    $(document).on('click', '.btnContinueDelete', function (e) {
+        var id =parseInt( $("#hdntxt").val());
+        $.post("/Machines/DeleteMachine", { id }, function (msg) {
+            if (msg != '') {
+                alert("Machine Deleted Successfully");
+                window.location.href = "/Machines/MachineList";
+            }
+        });
+    });
 
+    $(document).on('click', '.Machinedelete', function (e) {
+        var ID = parseInt($(this).attr("id"));
+        $("#hdntxt").val(ID);
     });
 
 });
